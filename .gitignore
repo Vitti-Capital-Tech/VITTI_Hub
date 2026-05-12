@@ -1,0 +1,77 @@
+# ── Dependencies ────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ── Environment (NEVER commit — contains PIN and secrets) ────────────
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.*.local
+
+# ── Build output ─────────────────────────────────────────────────────
+dist/
+dist-ssr/
+build/
+out/
+
+# ── Vite cache ───────────────────────────────────────────────────────
+.vite/
+vite.config.js.timestamp-*
+
+# ── Logs ────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ── Runtime & misc ───────────────────────────────────────────────────
+*.pid
+*.seed
+*.pid.lock
+.node_repl_history
+.npm
+.eslintcache
+.stylelintcache
+
+# ── Testing ─────────────────────────────────────────────────────────
+coverage/
+*.lcov
+.nyc_output
+
+# ── Editor ──────────────────────────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+
+# ── OS generated ─────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ── Package manager lock files (keep only the one you use) ──────────
+# Uncomment to ignore if you are not using yarn or pnpm:
+# yarn.lock
+# pnpm-lock.yaml
