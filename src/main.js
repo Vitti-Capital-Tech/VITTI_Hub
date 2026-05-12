@@ -9,18 +9,30 @@ const SB_URL = import.meta.env.VITE_SUPABASE_URL || '';
 const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const THEME_KEY = 'vitti_hub_theme';
 
-const supabase = createClient(SB_URL, SB_KEY);
+const supabase = createClient(SB_URL, SB_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    cookieOptions: {
+      domain: '.vitticapital.ai', // Share across all subdomains
+      path: '/',
+      sameSite: 'Lax',
+      secure: true
+    }
+  }
+});
 
 // ── Animation Helpers ──────────────────────────────────────────
 function triggerShake(inputId) {
   const card = document.querySelector('.pin-card');
   const input = document.getElementById(inputId);
   if (!card) return;
-  
+
   card.style.animation = 'none';
   card.offsetHeight; // trigger reflow
   card.style.animation = 'shakeCard 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both';
-  
+
   if (input) {
     input.classList.add('error');
     setTimeout(() => input.classList.remove('error'), 1000);
@@ -31,9 +43,9 @@ async function triggerSuccess(inputId, nextStep) {
   const card = document.querySelector('.pin-card');
   const input = document.getElementById(inputId);
   const container = input.parentElement;
-  
+
   if (input) input.classList.add('success');
-  
+
   // Add checkmark next to input
   const check = document.createElement('div');
   check.className = 'success-check';
@@ -93,7 +105,7 @@ function updateThemeIcon() {
 // ── Supabase Auth ────────────────────────────────────────────────
 async function initAuth() {
   const { data: { session } } = await supabase.auth.getSession();
-  
+
   if (!session) {
     renderEmailForm();
   } else {
@@ -138,7 +150,7 @@ function renderEmailForm() {
   document.getElementById('send-otp-btn').addEventListener('click', async (e) => {
     const email = document.getElementById('email-input').value.trim().toLowerCase();
     const errEl = document.getElementById('auth-err');
-    
+
     const isVitti = email.endsWith('@vitti.capital') || email.endsWith('@vitticapital.ai');
     const isTest = email === 'tusharbhardwaj2617@gmail.com';
 
@@ -154,7 +166,7 @@ function renderEmailForm() {
     btn.textContent = 'Sending...';
 
     const { error } = await supabase.auth.signInWithOtp({ email });
-    
+
     if (error) {
       errEl.textContent = error.message;
       errEl.classList.add('show');
@@ -248,7 +260,7 @@ function startClock(elId) {
   if (!el) return;
   const tick = () => {
     el.textContent = new Date().toLocaleTimeString('en-AU', {
-      hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
     });
   };
   tick();
@@ -572,7 +584,7 @@ function openDashboard(projectId) {
   const title = document.getElementById('viewer-title-text');
   const loader = document.getElementById('viewer-loader');
 
-  title.textContent = project.name;
+  title.innerHTML = `<span class="viewer-status-dot"></span> ${project.name}`;
   loader.classList.remove('hide');
   iframe.src = project.url;
 
@@ -587,19 +599,20 @@ function openDashboard(projectId) {
 function closeDashboard() {
   const viewer = document.getElementById('viewer');
   const iframe = document.getElementById('viewer-iframe');
-  
+
   viewer.classList.remove('show');
   iframe.src = 'about:blank';
   document.body.style.overflow = '';
 }
 
 // ── Portal ────────────────────────────────────────────────────────
-function renderPortal() {
+async function renderPortal() {
   const isDark = getTheme() === 'dark';
 
   const cards = PROJECTS.map((p, i) => `
-    <div class="card" id="card-${p.id}" style="transition-delay: ${i * 80}ms"
+    <div class="card" id="card-${p.id}" style="transition-delay: ${i * 100}ms"
          onclick="openDashboard('${p.id}')"
+         onmousemove="this.style.setProperty('--x', event.offsetX + 'px'); this.style.setProperty('--y', event.offsetY + 'px')"
          aria-label="Open ${p.name}">
       <div class="card-img">
         <img src="${p.image}" alt="${p.name}" loading="lazy" />
@@ -611,7 +624,7 @@ function renderPortal() {
                 <path d="M7 17L17 7"/><path d="M7 7h10v10"/>
               </svg>
             </div>
-            <span class="card-hover-label">View within Hub</span>
+            <span class="card-hover-label">View Live</span>
           </div>
         </div>
         <div class="card-live-dot"><span class="sdot"></span></div>
@@ -623,14 +636,19 @@ function renderPortal() {
     </div>
   `).join('');
 
+  const { data: { user } } = await supabase.auth.getUser();
+  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const capitalName = userName.charAt(0).toUpperCase() + userName.slice(1);
+
   document.getElementById('app').innerHTML = `
     <div id="portal" class="show">
       <header class="hdr">
         <div class="hdr-logo">
-          ${logoImg(32)}
+          <div class="logo-wrap mini">
+            ${logoImg(32)}
+          </div>
           <div class="hdr-logo-text">
             <span class="hdr-name">VITTI Hub</span>
-            <span class="hdr-sub">Operations Portal</span>
           </div>
         </div>
         <div class="hdr-actions">
@@ -638,9 +656,7 @@ function renderPortal() {
             <span class="badge-dot"></span>
             <span>All Systems Live</span>
           </div>
-          <button class="btn-icon" id="theme-btn" aria-label="Toggle theme">
-            ${isDark ? iconMoon() : iconSun()}
-          </button>
+          <div class="viewer-divider"></div>
           <button class="btn-lock" id="logout-btn" aria-label="Logout">
             ${iconLock()} <span>Logout</span>
           </button>
@@ -648,8 +664,17 @@ function renderPortal() {
       </header>
 
       <div class="content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+          <div class="hero-content">
+            <h1 class="hero-title">Welcome back</h1>
+            <p class="hero-subtitle">The markets never sleep. <span class="text-accent">Your edge is ready.</span></p>
+          </div>
+          
+        </section>
+
         <div class="section-head">
-          <span class="section-label">Dashboards</span>
+          <span class="section-label">Active Dashboards</span>
           <div class="section-rule"></div>
         </div>
 
@@ -661,7 +686,6 @@ function renderPortal() {
       <footer>
         <div class="footer">
           <span class="footer-copy">&copy; ${new Date().getFullYear()} VITTI Capital. All rights reserved.</span>
-          <span class="footer-clock" id="live-clock-footer"></span>
         </div>
       </footer>
     </div>
@@ -669,17 +693,22 @@ function renderPortal() {
     <!-- Viewer Layer -->
     <div id="viewer">
       <div class="viewer-hdr">
-        <div class="viewer-info">
-          <button class="btn-back" id="viewer-back">
+        <div class="viewer-nav">
+          <button class="btn-back-hub" id="viewer-back">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
-            Back to Portal
+            <span>Back to Hub</span>
           </button>
+          <div class="viewer-divider"></div>
           <div class="viewer-title" id="viewer-title-text"></div>
         </div>
-        <div class="hdr-logo">
-          ${logoImg(24)}
+        
+        <div class="viewer-brand">
+          <span class="viewer-brand-text">Vitti Capital</span>
+          <div class="logo-wrap mini">
+            ${logoImg(24)}
+          </div>
         </div>
       </div>
       <div class="viewer-frame-wrap">
@@ -691,7 +720,6 @@ function renderPortal() {
     </div>
   `;
 
-  document.getElementById('theme-btn').addEventListener('click', toggleTheme);
   document.getElementById('logout-btn').addEventListener('click', async () => {
     await supabase.auth.signOut();
     location.reload();
