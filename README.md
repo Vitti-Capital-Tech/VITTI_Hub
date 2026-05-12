@@ -1,41 +1,19 @@
-# VITTI Hub
+<p align="center">
+  <img src="./public/logo.png" alt="VITTI Capital" width="90" />
+</p>
 
-Internal operations portal for VITTI Capital. PIN-protected single entry point to all proprietary dashboards and analytics tools.
+<h1 align="center">VITTI Hub</h1>
 
----
-
-## Stack
-
-- Vite + Vanilla JavaScript
-- Vanilla CSS
-- Environment-based PIN via `VITE_PIN_CODE`
+<p align="center">Internal operations portal for VITTI Capital.</p>
 
 ---
 
-## Setup
+VITTI Hub is a private, PIN-protected portal that brings all of VITTI Capital's internal dashboards and analytics tools into one place. Instead of managing separate links and bookmarks, everything is accessible from a single secure page.
 
-```bash
-npm install
-cp .env.example .env   # set VITE_PIN_CODE in .env
-npm run dev
-```
+To access it, open the portal URL in your browser. You will be prompted to enter a 4-digit PIN. Once verified, you will have direct access to all internal tools and operations running under VITTI Capital.
+
+Access is restricted to authorised personnel only. To request the PIN, contact the VITTI Capital team directly.
 
 ---
 
-## Build
-
-```bash
-npm run build
-```
-
----
-
-## Notes
-
-- `.env` is gitignored. The PIN is never committed to source control.
-- Screenshots go in `public/screenshots/` and are referenced in `src/main.js` under each project's `screenshot` field.
-- Logo file: `public/logo.png`.
-
----
-
-Licensed under MIT. Copyright (c) 2026 VITTI Capital.
+This project is licensed under the [MIT License](./LICENSE).
