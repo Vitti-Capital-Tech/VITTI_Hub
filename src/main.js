@@ -23,6 +23,54 @@ const supabase = createClient(SB_URL, SB_KEY, {
   }
 });
 
+// ── 24-Hour Session Enforcement ──────────────────────────────────
+async function checkSessionExpiry() {
+  const SESSION_KEY = 'vitti_last_login';
+  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  if (session) {
+    const lastLogin = localStorage.getItem(SESSION_KEY);
+    const now = Date.now();
+
+    if (!lastLogin) {
+      // First time logging in with this new logic
+      localStorage.setItem(SESSION_KEY, now);
+    } else if (now - parseInt(lastLogin) > TWENTY_FOUR_HOURS) {
+      // Session expired!
+      localStorage.removeItem(SESSION_KEY);
+      await supabase.auth.signOut();
+      showSessionExpiredOverlay();
+    }
+  } else {
+    localStorage.removeItem(SESSION_KEY);
+  }
+}
+
+function showSessionExpiredOverlay() {
+  const overlay = document.createElement('div');
+  overlay.id = 'session-expired-overlay';
+  overlay.innerHTML = `
+    <div class="expired-card">
+      <div class="expired-icon-wrap">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2 class="expired-title">Session Expired</h2>
+      <p class="expired-text">For your security, you are logged out every 24 hours. Please sign in again to continue.</p>
+      <div class="expired-action">
+        <button onclick="location.reload()" class="btn-primary expired-btn">
+          Sign In
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
 // ── Animation Helpers ──────────────────────────────────────────
 function triggerShake(inputId) {
   const card = document.querySelector('.pin-card');
@@ -737,4 +785,5 @@ async function renderPortal() {
 
 // ── Boot ──────────────────────────────────────────────────────────
 applyTheme(getTheme());
+checkSessionExpiry();
 initAuth();
