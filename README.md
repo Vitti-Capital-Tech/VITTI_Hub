@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/logo.png" alt="VITTI Capital" width="90" />
+  <img src="./public/logo.jpeg" alt="VITTI Capital" width="90" />
 </p>
 
 <h1 align="center">VITTI Hub</h1>
