@@ -7,6 +7,7 @@ import './style.css';
 
 const SB_URL = import.meta.env.VITE_SUPABASE_URL || '';
 const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const GUEST_ID = import.meta.env.VITE_GUEST_ID || '';
 const THEME_KEY = 'vitti_hub_theme';
 
 const supabase = createClient(SB_URL, SB_KEY, {
@@ -155,6 +156,10 @@ async function initAuth() {
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
+    if (GUEST_ID && localStorage.getItem('vitti_guest') === GUEST_ID) {
+      renderPortal();
+      return;
+    }
     renderEmailForm();
   } else {
     const email = session.user.email;
@@ -198,6 +203,14 @@ function renderEmailForm() {
   document.getElementById('send-otp-btn').addEventListener('click', async (e) => {
     const email = document.getElementById('email-input').value.trim().toLowerCase();
     const errEl = document.getElementById('auth-err');
+
+    if (GUEST_ID && email === GUEST_ID.toLowerCase()) {
+      triggerSuccess('email-input', () => {
+        localStorage.setItem('vitti_guest', GUEST_ID);
+        renderPortal();
+      });
+      return;
+    }
 
     const isVitti = email.endsWith('@vitti.capital') || email.endsWith('@vitticapital.ai');
     const isTest = email === 'tusharbhardwaj2617@gmail.com';
@@ -769,6 +782,7 @@ async function renderPortal() {
   `;
 
   document.getElementById('logout-btn').addEventListener('click', async () => {
+    localStorage.removeItem('vitti_guest');
     await supabase.auth.signOut();
     location.reload();
   });
