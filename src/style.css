@@ -823,6 +823,18 @@ body::before {
   text-transform: uppercase;
 }
 
+.footer-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent-light);
+  opacity: 0.85;
+}
+
 /* ================================================================
    ANIMATIONS
    ================================================================ */

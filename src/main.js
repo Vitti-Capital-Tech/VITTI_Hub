@@ -2035,7 +2035,7 @@ async function renderPortal() {
 
       <footer>
         <div class="footer">
-          <span class="footer-copy">&copy; ${new Date().getFullYear()} VITTI Capital. All rights reserved.</span>
+          <span class="footer-copy">&copy; ${new Date().getFullYear()} <a href="https://vitti.capital" target="_blank" rel="noopener noreferrer" class="footer-link">VITTI Capital</a>. All rights reserved.</span>
         </div>
       </footer>
     </div>
