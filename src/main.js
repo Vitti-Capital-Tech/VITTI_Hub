@@ -488,7 +488,7 @@ window.addEventListener('mouseleave', () => {
 });
 
 const QUOTES_POOL = [
-  // Robert G. Allen (4 quotes)
+  // Robert G. Allen (7 quotes)
   {
     author: "Robert G. Allen",
     title: "Author & Wealth Expert",
@@ -513,8 +513,26 @@ const QUOTES_POOL = [
     avatarFile: "robert_g_allen.jpg",
     text: "Your income is directly related to your philosophy, not the economy."
   },
+  {
+    author: "Robert G. Allen",
+    title: "Author & Wealth Expert",
+    avatarFile: "robert_g_allen.jpg",
+    text: "How you feed your mind determines your appetite for success."
+  },
+  {
+    author: "Robert G. Allen",
+    title: "Author & Wealth Expert",
+    avatarFile: "robert_g_allen.jpg",
+    text: "The key to wealth is simple: Find a way to add value to other people's lives."
+  },
+  {
+    author: "Robert G. Allen",
+    title: "Author & Wealth Expert",
+    avatarFile: "robert_g_allen.jpg",
+    text: "Multiple streams of income are no longer a luxury; they are a necessity."
+  },
 
-  // Paul Samuelson (4 quotes)
+  // Paul Samuelson (7 quotes)
   {
     author: "Paul Samuelson",
     title: "Nobel Laureate Economist",
@@ -539,8 +557,26 @@ const QUOTES_POOL = [
     avatarFile: "paul_samuelson.jpg",
     text: "The stock market has predicted nine of the last five recessions."
   },
+  {
+    author: "Paul Samuelson",
+    title: "Nobel Laureate Economist",
+    avatarFile: "paul_samuelson.jpg",
+    text: "If you must forecast, forecast often."
+  },
+  {
+    author: "Paul Samuelson",
+    title: "Nobel Laureate Economist",
+    avatarFile: "paul_samuelson.jpg",
+    text: "Good questions outrank easy answers."
+  },
+  {
+    author: "Paul Samuelson",
+    title: "Nobel Laureate Economist",
+    avatarFile: "paul_samuelson.jpg",
+    text: "It is the start of wisdom to recognize that there are no free lunches."
+  },
 
-  // Sir John Templeton (4 quotes)
+  // Sir John Templeton (7 quotes)
   {
     author: "Sir John Templeton",
     title: "Global Investing Pioneer",
@@ -565,8 +601,26 @@ const QUOTES_POOL = [
     avatarFile: "sir_john_templeton.jpg",
     text: "If you want to have better performance than the crowd, you must do things differently."
   },
+  {
+    author: "Sir John Templeton",
+    title: "Global Investing Pioneer",
+    avatarFile: "sir_john_templeton.jpg",
+    text: "Focus on value, because most people focus on outlooks and trends."
+  },
+  {
+    author: "Sir John Templeton",
+    title: "Global Investing Pioneer",
+    avatarFile: "sir_john_templeton.jpg",
+    text: "It is nice to be important, but it's more important to be nice."
+  },
+  {
+    author: "Sir John Templeton",
+    title: "Global Investing Pioneer",
+    avatarFile: "sir_john_templeton.jpg",
+    text: "Invest for maximum total real return, not for maximum nominal yield."
+  },
 
-  // Peter Bernstein (4 quotes)
+  // Peter Bernstein (7 quotes)
   {
     author: "Peter Bernstein",
     title: "Financial Historian & Author",
@@ -591,8 +645,26 @@ const QUOTES_POOL = [
     avatarFile: "peter_bernstein.jpg",
     text: "The word 'risk' derives from the early Italian 'risicare', which means 'to dare'."
   },
+  {
+    author: "Peter Bernstein",
+    title: "Financial Historian & Author",
+    avatarFile: "peter_bernstein.jpg",
+    text: "The consequences of being wrong should dictate your strategy, not your view of the future."
+  },
+  {
+    author: "Peter Bernstein",
+    title: "Financial Historian & Author",
+    avatarFile: "peter_bernstein.jpg",
+    text: "In the real world, the future is not a continuation of the past."
+  },
+  {
+    author: "Peter Bernstein",
+    title: "Financial Historian & Author",
+    avatarFile: "peter_bernstein.jpg",
+    text: "Diversification is the only rational behavior in an uncertain world."
+  },
 
-  // Robert T. Kiyosaki (4 quotes)
+  // Robert T. Kiyosaki (7 quotes)
   {
     author: "Robert T. Kiyosaki",
     title: "Author, Rich Dad Poor Dad",
@@ -617,8 +689,26 @@ const QUOTES_POOL = [
     avatarFile: "robert_t_kiyosaki.jpg",
     text: "If you want to be rich, you need to learn how to make money work for you, rather than working for money."
   },
+  {
+    author: "Robert T. Kiyosaki",
+    title: "Author, Rich Dad Poor Dad",
+    avatarFile: "robert_t_kiyosaki.jpg",
+    text: "Inside of every problem lies an opportunity."
+  },
+  {
+    author: "Robert T. Kiyosaki",
+    title: "Author, Rich Dad Poor Dad",
+    avatarFile: "robert_t_kiyosaki.jpg",
+    text: "The size of your success is measured by the strength of your desire."
+  },
+  {
+    author: "Robert T. Kiyosaki",
+    title: "Author, Rich Dad Poor Dad",
+    avatarFile: "robert_t_kiyosaki.jpg",
+    text: "The most life-destroying word of all is the word 'tomorrow'."
+  },
 
-  // Ed Seykota (4 quotes)
+  // Ed Seykota (7 quotes)
   {
     author: "Ed Seykota",
     title: "Market Wizard & Pioneer",
@@ -643,8 +733,26 @@ const QUOTES_POOL = [
     avatarFile: "ed_seykota.jpg",
     text: "Everyone gets what they want out of the market. Win or lose, people get what they want."
   },
+  {
+    author: "Ed Seykota",
+    title: "Market Wizard & Pioneer",
+    avatarFile: "ed_seykota.jpg",
+    text: "Win or lose, everybody gets what they want out of the market. Some people seem to like to lose."
+  },
+  {
+    author: "Ed Seykota",
+    title: "Market Wizard & Pioneer",
+    avatarFile: "ed_seykota.jpg",
+    text: "A losing position is a lesson, not an identity."
+  },
+  {
+    author: "Ed Seykota",
+    title: "Market Wizard & Pioneer",
+    avatarFile: "ed_seykota.jpg",
+    text: "Having a system is the difference between investing and gambling."
+  },
 
-  // Walter Schloss (4 quotes)
+  // Walter Schloss (7 quotes)
   {
     author: "Walter Schloss",
     title: "Value Investing Legend",
@@ -669,8 +777,26 @@ const QUOTES_POOL = [
     avatarFile: "walter_schloss.jpg",
     text: "If you buy cheap companies and have patience, most of them will work out in the long run."
   },
+  {
+    author: "Walter Schloss",
+    title: "Value Investing Legend",
+    avatarFile: "walter_schloss.jpg",
+    text: "Remember that a stock represents a piece of a business, not just a blinking ticker symbol."
+  },
+  {
+    author: "Walter Schloss",
+    title: "Value Investing Legend",
+    avatarFile: "walter_schloss.jpg",
+    text: "Avoid emotional attachment to your holdings. They do not know that you own them."
+  },
+  {
+    author: "Walter Schloss",
+    title: "Value Investing Legend",
+    avatarFile: "walter_schloss.jpg",
+    text: "If you can't buy at a bargain, the best thing to do is to hold cash."
+  },
 
-  // Charlie Munger (4 quotes)
+  // Charlie Munger (7 quotes)
   {
     author: "Charlie Munger",
     title: "Vice Chairman, Berkshire Hathaway",
@@ -695,8 +821,26 @@ const QUOTES_POOL = [
     avatarFile: "charlie_munger.jpg",
     text: "Knowing what you don't know is more useful than being brilliant."
   },
+  {
+    author: "Charlie Munger",
+    title: "Vice Chairman, Berkshire Hathaway",
+    avatarFile: "charlie_munger.jpg",
+    text: "Spend each day trying to be a little wiser than you were when you woke up."
+  },
+  {
+    author: "Charlie Munger",
+    title: "Vice Chairman, Berkshire Hathaway",
+    avatarFile: "charlie_munger.jpg",
+    text: "To get what you want, you have to deserve what you want."
+  },
+  {
+    author: "Charlie Munger",
+    title: "Vice Chairman, Berkshire Hathaway",
+    avatarFile: "charlie_munger.jpg",
+    text: "Simplicity has a way of improving performance by enabling us to better understand what we are doing."
+  },
 
-  // Jensen Huang (4 quotes)
+  // Jensen Huang (7 quotes)
   {
     author: "Jensen Huang",
     title: "NVIDIA CEO",
@@ -720,6 +864,24 @@ const QUOTES_POOL = [
     title: "NVIDIA CEO",
     avatarFile: "jensen_huang.jpg",
     text: "Run, don't walk. Either you are running for food, or you are running from being food."
+  },
+  {
+    author: "Jensen Huang",
+    title: "NVIDIA CEO",
+    avatarFile: "jensen_huang.jpg",
+    text: "Pain and suffering are necessary parts of building a resilient character."
+  },
+  {
+    author: "Jensen Huang",
+    title: "NVIDIA CEO",
+    avatarFile: "jensen_huang.jpg",
+    text: "We are entering a new industrial revolution where data is the raw material and AI is the factory."
+  },
+  {
+    author: "Jensen Huang",
+    title: "NVIDIA CEO",
+    avatarFile: "jensen_huang.jpg",
+    text: "The future of computing is generative, and the future of work is collaborative."
   }
 ];
 
@@ -1172,91 +1334,127 @@ function initFloatingQuotes(canvas) {
 
 
   const SLOTS = {
-    'top-right': { top: '6vh', right: '6vw' }
+    'top-right': { top: '6vh', right: '6vw' },
+    'bottom-left': { bottom: '11vh', left: '6vw' }
   };
 
-  let lastQuoteIndex = -1;
-  let cardTimeLeft = 9000; // 9 seconds active lifetime
-  let cardIsHovered = false;
   const timers = [];
-  let activeTypingInterval = null;
 
-  // Helper to type out quote body smoothly character-by-character
-  function typeQuote(element, text, cursorEl) {
-    if (activeTypingInterval) {
-      clearInterval(activeTypingInterval);
-    }
-    element.textContent = '';
-    if (cursorEl) cursorEl.style.display = 'inline-block';
-    
-    let i = 0;
-    activeTypingInterval = setInterval(() => {
-      if (i < text.length) {
-        element.textContent += text.charAt(i);
-        i++;
+  function createQuoteCard(slotName) {
+    let lastQuoteIndex = -1;
+    let cardTimeLeft = 9000 + Math.random() * 2000; // Desynchronize cycle timings
+    let cardIsHovered = false;
+    let activeTypingInterval = null;
+
+    const cardEl = document.createElement('div');
+    cardEl.className = 'quote-card-popup';
+    cardEl.style.opacity = '0';
+    cardEl.style.transform = 'scale(0.92) translateY(12px)';
+    cardEl.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease';
+
+    function applyPosition() {
+      const isMobile = window.innerWidth < 850;
+      if (isMobile) {
+        // Hide the bottom-left one on mobile so they don't overlap
+        if (slotName === 'bottom-left') {
+          cardEl.style.display = 'none';
+          return;
+        }
+        cardEl.style.display = 'block';
+        cardEl.style.top = 'auto';
+        cardEl.style.right = '5%';
+        cardEl.style.bottom = '4vh';
+        cardEl.style.left = '5%';
+        cardEl.style.margin = '0 auto';
       } else {
-        clearInterval(activeTypingInterval);
-        activeTypingInterval = null;
-        if (cursorEl) cursorEl.style.display = 'none';
+        cardEl.style.display = 'block';
+        const pos = SLOTS[slotName];
+        if (pos.top) cardEl.style.top = pos.top; else cardEl.style.top = 'auto';
+        if (pos.right) cardEl.style.right = pos.right; else cardEl.style.right = 'auto';
+        if (pos.bottom) cardEl.style.bottom = pos.bottom; else cardEl.style.bottom = 'auto';
+        if (pos.left) cardEl.style.left = pos.left; else cardEl.style.left = 'auto';
+        cardEl.style.margin = '0';
       }
-    }, 18);
-  }
+    }
 
-  // Create single permanent card element
-  const cardEl = document.createElement('div');
-  cardEl.className = 'quote-card-popup';
-  cardEl.style.opacity = '0';
-  cardEl.style.transform = 'scale(0.92) translateY(12px)';
-  cardEl.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease';
+    applyPosition();
 
-  // Apply initial position
-  const isMobileInit = window.innerWidth < 850;
-  if (isMobileInit) {
-    cardEl.style.bottom = '4vh';
-    cardEl.style.left = '5%';
-    cardEl.style.right = '5%';
-    cardEl.style.margin = '0 auto';
-  } else {
-    const pos = SLOTS['top-right'];
-    cardEl.style.top = pos.top;
-    cardEl.style.right = pos.right;
-  }
+    cardEl.innerHTML = `<div class="quote-card-inner enter-prep"></div>`;
+    const innerEl = cardEl.querySelector('.quote-card-inner');
+    container.appendChild(cardEl);
 
-  // Create content wrapper for inner slide-and-blur animations
-  cardEl.innerHTML = `<div class="quote-card-inner enter-prep"></div>`;
-  const innerEl = cardEl.querySelector('.quote-card-inner');
-  container.appendChild(cardEl);
+    cardEl.addEventListener('mouseenter', () => { cardIsHovered = true; });
+    cardEl.addEventListener('mouseleave', () => { cardIsHovered = false; });
 
-  // Hover states to pause interval timers
-  cardEl.addEventListener('mouseenter', () => {
-    cardIsHovered = true;
-  });
-  cardEl.addEventListener('mouseleave', () => {
-    cardIsHovered = false;
-  });
-
-  // Cycle quote content smoothly with 3D rolled avatars and horizontal slide reveals
-  function cycleQuote() {
-    // Pick next random quote
-    let quoteIndex;
-    let attempts = 0;
-    do {
-      quoteIndex = Math.floor(Math.random() * QUOTES_POOL.length);
-      attempts++;
-    } while (attempts < 15 && quoteIndex === lastQuoteIndex && QUOTES_POOL.length > 1);
-
-    lastQuoteIndex = quoteIndex;
-    const quote = QUOTES_POOL[quoteIndex];
-
-    const hasContent = innerEl.innerHTML !== '';
-
-    if (hasContent) {
-      // Trigger avatar spin and content exit
-      const oldAvatar = innerEl.querySelector('.quote-avatar');
-      if (oldAvatar) oldAvatar.className = 'quote-avatar roll-out';
-      innerEl.className = 'quote-card-inner exit';
+    function typeQuote(element, text, cursorEl) {
+      if (activeTypingInterval) clearInterval(activeTypingInterval);
+      element.textContent = '';
+      if (cursorEl) cursorEl.style.display = 'inline-block';
       
-      const transitionTimer = setTimeout(() => {
+      let i = 0;
+      activeTypingInterval = setInterval(() => {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(activeTypingInterval);
+          activeTypingInterval = null;
+          if (cursorEl) cursorEl.style.display = 'none';
+        }
+      }, 18);
+    }
+
+    function cycleQuote() {
+      let quoteIndex;
+      let attempts = 0;
+      do {
+        quoteIndex = Math.floor(Math.random() * QUOTES_POOL.length);
+        attempts++;
+      } while (attempts < 15 && quoteIndex === lastQuoteIndex && QUOTES_POOL.length > 1);
+
+      lastQuoteIndex = quoteIndex;
+      const quote = QUOTES_POOL[quoteIndex];
+
+      const hasContent = innerEl.innerHTML !== '';
+
+      if (hasContent) {
+        const oldAvatar = innerEl.querySelector('.quote-avatar');
+        if (oldAvatar) oldAvatar.className = 'quote-avatar roll-out';
+        innerEl.className = 'quote-card-inner exit';
+        
+        const t = setTimeout(() => {
+          innerEl.innerHTML = `
+            <div class="quote-header">
+              <div class="quote-avatar roll-in">${getAvatarHTML(quote)}</div>
+              <div class="quote-meta">
+                <span class="quote-author">${quote.author}</span>
+                <span class="quote-handle">${quote.title}</span>
+              </div>
+            </div>
+            <div class="quote-text">“<span class="quote-text-body"></span><span class="typing-cursor"></span>”</div>
+          `;
+          innerEl.className = 'quote-card-inner enter-prep';
+          
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              innerEl.className = 'quote-card-inner';
+              const newAvatar = innerEl.querySelector('.quote-avatar');
+              if (newAvatar) {
+                setTimeout(() => { newAvatar.classList.remove('roll-in'); }, 50);
+              }
+              const authorEl = innerEl.querySelector('.quote-author');
+              const handleEl = innerEl.querySelector('.quote-handle');
+              if (authorEl) authorEl.classList.add('reveal');
+              if (handleEl) handleEl.classList.add('reveal');
+
+              const bodyEl = innerEl.querySelector('.quote-text-body');
+              const cursorEl = innerEl.querySelector('.typing-cursor');
+              if (bodyEl) typeQuote(bodyEl, quote.text, cursorEl);
+            });
+          });
+        }, 500);
+        timers.push(t);
+      } else {
         innerEl.innerHTML = `
           <div class="quote-header">
             <div class="quote-avatar roll-in">${getAvatarHTML(quote)}</div>
@@ -1267,21 +1465,17 @@ function initFloatingQuotes(canvas) {
           </div>
           <div class="quote-text">“<span class="quote-text-body"></span><span class="typing-cursor"></span>”</div>
         `;
-        
-        innerEl.className = 'quote-card-inner enter-prep';
-        
-        // Trigger entering slide-unblur and bounc-roll
+        innerEl.className = 'quote-card-inner';
+
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            innerEl.className = 'quote-card-inner';
+          setTimeout(() => {
+            cardEl.style.opacity = '1';
+            cardEl.style.transform = 'scale(1) translateY(0)';
             
             const newAvatar = innerEl.querySelector('.quote-avatar');
             if (newAvatar) {
-              setTimeout(() => {
-                newAvatar.classList.remove('roll-in');
-              }, 50);
+              setTimeout(() => { newAvatar.classList.remove('roll-in'); }, 50);
             }
-            
             const authorEl = innerEl.querySelector('.quote-author');
             const handleEl = innerEl.querySelector('.quote-handle');
             if (authorEl) authorEl.classList.add('reveal');
@@ -1289,65 +1483,40 @@ function initFloatingQuotes(canvas) {
 
             const bodyEl = innerEl.querySelector('.quote-text-body');
             const cursorEl = innerEl.querySelector('.typing-cursor');
-            if (bodyEl) {
-              typeQuote(bodyEl, quote.text, cursorEl);
-            }
-          });
+            if (bodyEl) typeQuote(bodyEl, quote.text, cursorEl);
+          }, 800);
         });
-      }, 500);
-      timers.push(transitionTimer);
-    } else {
-      // First load content insertion
-      innerEl.innerHTML = `
-        <div class="quote-header">
-          <div class="quote-avatar roll-in">${getAvatarHTML(quote)}</div>
-          <div class="quote-meta">
-            <span class="quote-author">${quote.author}</span>
-            <span class="quote-handle">${quote.title}</span>
-          </div>
-        </div>
-        <div class="quote-text">“<span class="quote-text-body"></span><span class="typing-cursor"></span>”</div>
-      `;
-      innerEl.className = 'quote-card-inner';
-
-      // Smooth parent card entrance
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          cardEl.style.opacity = '1';
-          cardEl.style.transform = 'scale(1) translateY(0)';
-          
-          const newAvatar = innerEl.querySelector('.quote-avatar');
-          if (newAvatar) {
-            setTimeout(() => {
-              newAvatar.classList.remove('roll-in');
-            }, 50);
-          }
-          
-          const authorEl = innerEl.querySelector('.quote-author');
-          const handleEl = innerEl.querySelector('.quote-handle');
-          if (authorEl) authorEl.classList.add('reveal');
-          if (handleEl) handleEl.classList.add('reveal');
-
-          const bodyEl = innerEl.querySelector('.quote-text-body');
-          const cursorEl = innerEl.querySelector('.typing-cursor');
-          if (bodyEl) {
-            typeQuote(bodyEl, quote.text, cursorEl);
-          }
-        }, 800);
-      });
-    }
-  }
-
-  // Countdown timer loop running every 100ms
-  const intervalId = setInterval(() => {
-    if (!cardIsHovered) {
-      cardTimeLeft -= 100;
-      if (cardTimeLeft <= 0) {
-        cardTimeLeft = 9000; // Reset active lifespan
-        cycleQuote();
       }
     }
-  }, 100);
+
+    cycleQuote();
+
+    const intervalId = setInterval(() => {
+      if (!cardIsHovered) {
+        cardTimeLeft -= 100;
+        if (cardTimeLeft <= 0) {
+          cardTimeLeft = 9000;
+          cycleQuote();
+        }
+      }
+    }, 100);
+
+    return {
+      cardEl,
+      applyPosition,
+      destroy: () => {
+        clearInterval(intervalId);
+        if (activeTypingInterval) clearInterval(activeTypingInterval);
+        cardEl.remove();
+      }
+    };
+  }
+
+  // Create cards for both desktop slots
+  const activeCards = [
+    createQuoteCard('top-right'),
+    createQuoteCard('bottom-left')
+  ];
 
   // Parallax container shift based on interpolated mouse positions
   let animationFrameId;
@@ -1358,38 +1527,19 @@ function initFloatingQuotes(canvas) {
   }
   update();
 
-  // Spawning Sequence
-  cycleQuote();
-
-  // Responsive Layout Adaptor
   function handleResize() {
-    const isMobile = window.innerWidth < 850;
-    if (isMobile) {
-      cardEl.style.top = 'auto';
-      cardEl.style.right = '5%';
-      cardEl.style.bottom = '4vh';
-      cardEl.style.left = '5%';
-      cardEl.style.margin = '0 auto';
-    } else {
-      const pos = SLOTS['top-right'];
-      cardEl.style.top = pos.top;
-      cardEl.style.right = pos.right;
-      cardEl.style.bottom = 'auto';
-      cardEl.style.left = 'auto';
-      cardEl.style.margin = '0';
-    }
+    activeCards.forEach(c => c.applyPosition());
   }
   window.addEventListener('resize', handleResize);
 
   // Cleanup handler returned to parent background manager
   return () => {
-    clearInterval(intervalId);
     clearInterval(tickerUpdateInterval);
     clearInterval(liveSyncInterval);
     clearInterval(sessionsInterval);
-    if (activeTypingInterval) clearInterval(activeTypingInterval);
     cancelAnimationFrame(animationFrameId);
     window.removeEventListener('resize', handleResize);
+    activeCards.forEach(c => c.destroy());
     timers.forEach(t => clearTimeout(t));
     container.remove();
   };

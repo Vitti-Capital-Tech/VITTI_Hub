@@ -149,7 +149,7 @@ body::before {
 
 .pin-card {
   position: relative;
-  z-index: 1;
+  z-index: 10;
   width: 100%;
   max-width: clamp(390px, 35vw, 540px);
   background: rgba(10, 15, 30, 0.72);
@@ -168,7 +168,7 @@ body::before {
 
 .pin-contact {
   position: relative;
-  z-index: 1;
+  z-index: 10;
   margin-top: 32px;
   font-size: 12.5px;
   color: var(--text-2);
