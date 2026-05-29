@@ -638,6 +638,9 @@ body::before {
   opacity: 0;
   transform: translateY(30px) scale(0.98);
   position: relative;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .card.visible {

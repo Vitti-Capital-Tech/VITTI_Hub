@@ -246,11 +246,11 @@ function renderEmailForm() {
         <p class="pin-heading">Login</p>
         <p class="pin-sub">Enter your work email to receive a secure access code</p>
         
-        <div class="auth-form">
-          <input type="email" id="email-input" class="auth-input" placeholder="name@vitti.capital" />
+        <form class="auth-form" id="email-form">
+          <input type="email" id="email-input" class="auth-input" placeholder="name@vitti.capital" required autofocus />
           <p class="auth-err" id="auth-err"></p>
-          <button class="btn-primary" id="send-otp-btn">Send Access Code</button>
-        </div>
+          <button type="submit" class="btn-primary" id="send-otp-btn">Send Access Code</button>
+        </form>
       </div>
     </div>
   `;
@@ -258,53 +258,58 @@ function renderEmailForm() {
 
   const emailInput = document.getElementById('email-input');
   if (emailInput) {
-    emailInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        document.getElementById('send-otp-btn').click();
+    emailInput.focus();
+  }
+
+  const form = document.getElementById('email-form');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email-input').value.trim().toLowerCase();
+      const errEl = document.getElementById('auth-err');
+
+      if (email === 'vittimarketing team' || (GUEST_ID && email === GUEST_ID.toLowerCase())) {
+        triggerSuccess('email-input', () => {
+          localStorage.setItem('vitti_guest', email);
+          renderBypassTerminal(() => {
+            renderPortal();
+          });
+        });
+        return;
+      }
+
+      const isVitti = email.endsWith('@vitti.capital') || email.endsWith('@vitticapital.ai');
+      const isTest = email === 'tusharbhardwaj2617@gmail.com';
+
+      if (!isVitti && !isTest) {
+        errEl.textContent = 'Please use a @vitti.capital work email';
+        errEl.classList.add('show');
+        triggerShake('email-input');
+        return;
+      }
+
+      const btn = document.getElementById('send-otp-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+      }
+
+      const { error } = await supabase.auth.signInWithOtp({ email });
+
+      if (error) {
+        errEl.textContent = error.message;
+        errEl.classList.add('show');
+        triggerShake('email-input');
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Send Access Code';
+        }
+      } else {
+        triggerSuccess('email-input', () => renderOtpForm(email));
       }
     });
   }
-
-  document.getElementById('send-otp-btn').addEventListener('click', async (e) => {
-    const email = document.getElementById('email-input').value.trim().toLowerCase();
-    const errEl = document.getElementById('auth-err');
-
-    if (email === 'vittimarketing team' || (GUEST_ID && email === GUEST_ID.toLowerCase())) {
-      triggerSuccess('email-input', () => {
-        localStorage.setItem('vitti_guest', email);
-        renderBypassTerminal(() => {
-          renderPortal();
-        });
-      });
-      return;
-    }
-
-    const isVitti = email.endsWith('@vitti.capital') || email.endsWith('@vitticapital.ai');
-    const isTest = email === 'tusharbhardwaj2617@gmail.com';
-
-    if (!isVitti && !isTest) {
-      errEl.textContent = 'Please use a @vitti.capital work email';
-      errEl.classList.add('show');
-      triggerShake('email-input');
-      return;
-    }
-
-    const btn = e.target;
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-
-    const { error } = await supabase.auth.signInWithOtp({ email });
-
-    if (error) {
-      errEl.textContent = error.message;
-      errEl.classList.add('show');
-      triggerShake('email-input');
-      btn.disabled = false;
-      btn.textContent = 'Send Access Code';
-    } else {
-      triggerSuccess('email-input', () => renderOtpForm(email));
-    }
-  });
 }
 
 function renderOtpForm(email) {
@@ -1955,13 +1960,21 @@ function closeDashboard() {
   document.body.style.overflow = '';
 }
 
+window.handleCardClick = function(e, projectId) {
+  // If it's a standard left-click without modifier keys, open in the premium local viewer
+  if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey) {
+    e.preventDefault();
+    openDashboard(projectId);
+  }
+};
+
 // â”€â”€ Portal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function renderPortal() {
   const isDark = getTheme() === 'dark';
 
   const cards = PROJECTS.map((p, i) => `
-    <div class="card" id="card-${p.id}" style="transition-delay: ${i * 100}ms"
-         onclick="openDashboard('${p.id}')"
+    <a class="card" id="card-${p.id}" href="${p.url}" target="_blank" style="transition-delay: ${i * 100}ms"
+         onclick="handleCardClick(event, '${p.id}')"
          onmousemove="this.style.setProperty('--x', event.offsetX + 'px'); this.style.setProperty('--y', event.offsetY + 'px')"
          aria-label="Open ${p.name}">
       <div class="card-img">
@@ -1983,7 +1996,7 @@ async function renderPortal() {
         <h2 class="card-title">${p.name}</h2>
         <p class="card-tagline">${p.tagline}</p>
       </div>
-    </div>
+    </a>
   `).join('');
 
   const { data: { user } } = await supabase.auth.getUser();
