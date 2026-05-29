@@ -191,6 +191,13 @@ const PROJECTS = [
     url: import.meta.env.VITE_TRADE_URL || '',
     image: '/trade.png',
   },
+  {
+    id: 'vitti-bot',
+    name: 'VITTI Bot',
+    tagline: "See today's option trades, executed by the BOT.",
+    url: import.meta.env.VITE_BOT_URL || '',
+    image: '/bot.png',
+  },
 ];
 
 // â”€â”€ Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -247,7 +254,7 @@ function renderEmailForm() {
         <p class="pin-sub">Enter your work email to receive a secure access code</p>
         
         <form class="auth-form" id="email-form">
-          <input type="email" id="email-input" class="auth-input" placeholder="name@vitti.capital" required autofocus />
+          <input type="text" id="email-input" class="auth-input" placeholder="name@vitti.capital" autofocus />
           <p class="auth-err" id="auth-err"></p>
           <button type="submit" class="btn-primary" id="send-otp-btn">Send Access Code</button>
         </form>
@@ -259,6 +266,12 @@ function renderEmailForm() {
   const emailInput = document.getElementById('email-input');
   if (emailInput) {
     emailInput.focus();
+    emailInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('send-otp-btn').click();
+      }
+    });
   }
 
   const form = document.getElementById('email-form');
