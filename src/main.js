@@ -10,6 +10,12 @@ const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const GUEST_ID = import.meta.env.VITE_GUEST_ID || '';
 const THEME_KEY = 'vitti_hub_theme';
 
+const isMarketingTeam = (guest) => {
+  if (!guest) return false;
+  const g = guest.trim().toLowerCase();
+  return g === 'vittimarketing team' || g === 'vittimarketingteam' || (GUEST_ID && g === GUEST_ID.toLowerCase());
+};
+
 const supabase = createClient(SB_URL, SB_KEY, {
   auth: {
     persistSession: true,
@@ -113,7 +119,7 @@ async function triggerSuccess(inputId, nextStep) {
   }, 600);
 }
 
-function renderBypassTerminal(callback) {
+function renderBypassTerminal(statusText, callback) {
   // Step 1: Fade the whole login screen out cleanly
   const pinScreen = document.getElementById('pin-screen');
   if (pinScreen) {
@@ -136,7 +142,7 @@ function renderBypassTerminal(callback) {
         <div class="splash-progress-track">
           <div class="splash-progress-bar" id="splash-bar"></div>
         </div>
-        <p class="splash-status">Marketing access verified &nbsp;·&nbsp; Welcome back</p>
+        <p class="splash-status">${statusText}</p>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -219,7 +225,7 @@ async function initAuth() {
 
   if (!session) {
     const storedGuest = localStorage.getItem('vitti_guest');
-    if (storedGuest === 'vittimarketing team' || (GUEST_ID && storedGuest === GUEST_ID)) {
+    if (isMarketingTeam(storedGuest) || (storedGuest && storedGuest.trim().toLowerCase() === 'trade')) {
       renderPortal();
       return;
     }
@@ -282,10 +288,14 @@ function renderEmailForm() {
       const email = document.getElementById('email-input').value.trim().toLowerCase();
       const errEl = document.getElementById('auth-err');
 
-      if (email === 'vittimarketing team' || (GUEST_ID && email === GUEST_ID.toLowerCase())) {
+      if (isMarketingTeam(email) || email === 'trade') {
         triggerSuccess('email-input', () => {
           localStorage.setItem('vitti_guest', email);
-          renderBypassTerminal(() => {
+          const isMarketing = isMarketingTeam(email);
+          const statusMessage = isMarketing
+            ? 'Marketing access verified &nbsp;·&nbsp; Welcome back'
+            : 'Trading desk authorization confirmed &nbsp;·&nbsp; Welcome back';
+          renderBypassTerminal(statusMessage, () => {
             renderPortal();
           });
         });
@@ -1985,7 +1995,12 @@ window.handleCardClick = function(e, projectId) {
 async function renderPortal() {
   const isDark = getTheme() === 'dark';
 
-  const cards = PROJECTS.map((p, i) => `
+  const storedGuest = localStorage.getItem('vitti_guest');
+  const allowedProjects = isMarketingTeam(storedGuest)
+    ? PROJECTS.filter(p => p.id === 'ideas-dashboard')
+    : PROJECTS;
+
+  const cards = allowedProjects.map((p, i) => `
     <a class="card" id="card-${p.id}" href="${p.url}" target="_blank" style="transition-delay: ${i * 100}ms"
          onclick="handleCardClick(event, '${p.id}')"
          onmousemove="this.style.setProperty('--x', event.offsetX + 'px'); this.style.setProperty('--y', event.offsetY + 'px')"
