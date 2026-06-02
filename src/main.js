@@ -212,11 +212,12 @@ function applyTheme(t) { document.documentElement.dataset.theme = t; localStorag
 function toggleTheme() { applyTheme(getTheme() === 'dark' ? 'light' : 'dark'); updateThemeIcon(); }
 
 function updateThemeIcon() {
-  const btn = document.getElementById('theme-btn');
-  if (!btn) return;
+  const btns = document.querySelectorAll('.theme-btn');
   const dark = getTheme() === 'dark';
-  btn.innerHTML = dark ? iconMoon() : iconSun();
-  btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  btns.forEach(btn => {
+    btn.innerHTML = dark ? iconSun() : iconMoon();
+    btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  });
 }
 
 // â”€â”€ Supabase Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -2048,6 +2049,8 @@ async function renderPortal() {
             <span>All Systems Live</span>
           </div>
           <div class="viewer-divider"></div>
+          <button class="btn-icon theme-btn" aria-label="Toggle Theme"></button>
+          <div class="viewer-divider"></div>
           <button class="btn-lock" id="logout-btn" aria-label="Logout">
             ${iconLock()} <span>Logout</span>
           </button>
@@ -2095,7 +2098,9 @@ async function renderPortal() {
           <div class="viewer-title" id="viewer-title-text"></div>
         </div>
         
-        <div class="viewer-brand">
+        <div class="viewer-brand" style="display: flex; align-items: center; gap: 12px;">
+          <button class="btn-icon theme-btn" aria-label="Toggle Theme"></button>
+          <div class="viewer-divider"></div>
           <span class="viewer-brand-text">Vitti Capital</span>
           <div class="logo-wrap mini">
             ${logoImg(24)}
@@ -2117,6 +2122,11 @@ async function renderPortal() {
     location.reload();
   });
   document.getElementById('viewer-back').addEventListener('click', closeDashboard);
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', toggleTheme);
+  });
+  updateThemeIcon();
 
   window.openDashboard = openDashboard; // Make globally accessible for onclick
 

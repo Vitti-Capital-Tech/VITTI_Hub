@@ -29,6 +29,7 @@
   --key-hover:   rgba(59, 130, 246, 0.1);
   --status-bg:   rgba(74, 222, 128, 0.1);
   --status-border: rgba(74, 222, 128, 0.22);
+  --hero-gradient: linear-gradient(to bottom, #ffffff, var(--text-2));
 
   --radius-s:  8px;
   --radius-m:  14px;
@@ -63,6 +64,7 @@
   --accent-light:  #3b82f6;
   --accent-dim:    rgba(37, 99, 235, 0.12);
   --accent-glow:   rgba(37, 99, 235, 0.2);
+  --hero-gradient: linear-gradient(to bottom, var(--text-1), var(--text-2));
 }
 
 .text-accent {
@@ -409,7 +411,7 @@ body::before {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  background: rgba(13, 13, 24, 0.6);
+  background: var(--glass);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid var(--border);
@@ -571,7 +573,7 @@ body::before {
   color: var(--text-1);
   letter-spacing: -0.03em;
   margin-bottom: 12px;
-  background: linear-gradient(to bottom, #fff, var(--text-2));
+  background: var(--hero-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -691,7 +693,8 @@ body::before {
 }
 
 [data-theme="light"] .card-img-fade {
-  background: linear-gradient(to bottom, transparent 50%, rgba(240,244,248,0.65) 100%);
+  background: transparent;
+  opacity: 0;
 }
 
 /* Hover overlay with arrow */
@@ -978,7 +981,7 @@ body::before {
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: rgba(13, 13, 24, 0.85);
+  background: var(--glass);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
