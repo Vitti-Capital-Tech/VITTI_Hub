@@ -202,7 +202,7 @@ const PROJECTS = [
     name: 'VITTI Bot',
     tagline: "See today's option trades, executed by the BOT.",
     url: import.meta.env.VITE_BOT_URL || '',
-    image: '/bot.png',
+    image: '/bot.jpeg',
   },
 ];
 
