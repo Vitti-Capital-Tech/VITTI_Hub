@@ -204,6 +204,13 @@ const PROJECTS = [
     url: import.meta.env.VITE_BOT_URL || '',
     image: '/bot.jpeg',
   },
+  {
+    id: 'mirror-dashboard',
+    name: 'Mirror Dashboard',
+    tagline: 'See trades in the follower accounts executed by the master account.',
+    url: import.meta.env.VITE_MIRROR_URL || '',
+    image: '/mirror.png',
+  },
 ];
 
 // â”€â”€ Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
