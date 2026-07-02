@@ -211,6 +211,13 @@ const PROJECTS = [
     url: import.meta.env.VITE_MIRROR_URL || '',
     image: '/mirror.png',
   },
+  {
+    id: 'client-dashboard',
+    name: 'Client Dashboard',
+    tagline: 'View client portfolios, performance metrics, and account details.',
+    url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
+    image: '/client.jpg',
+  },
 ];
 
 // â”€â”€ Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
