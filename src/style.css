@@ -748,25 +748,20 @@ body::before {
 }
 
 /* Live dot — top-right of image */
-/* Corner badge (NEW / HOT) */
+/* Inline badge (NEW / HOT) next to card title */
 .card-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 3px 8px 3px 7px;
+  border-radius: 5px;
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.09em;
   line-height: 1;
   text-transform: uppercase;
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
-  z-index: 3;
+  flex-shrink: 0;
 }
 
 .card-badge::before {
@@ -774,15 +769,31 @@ body::before {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
+  background: currentColor;
 }
 
 .card-badge-new {
-  background: #2563eb;
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 .card-badge-hot {
-  background: #ea580c;
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+[data-theme="light"] .card-badge-new {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="light"] .card-badge-hot {
+  color: #ea580c;
+  background: rgba(234, 88, 12, 0.1);
+  border-color: rgba(234, 88, 12, 0.3);
 }
 
 /* Card body */
@@ -804,12 +815,18 @@ body::before {
   );
 }
 
+.card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 5px;
+}
+
 .card-title {
   font-family: var(--font-display);
   font-size: clamp(15px, 1.5vw, 17px);
   font-weight: 700;
   color: var(--text-1);
-  margin-bottom: 5px;
   letter-spacing: -0.01em;
   line-height: 1.25;
   transition: color 0.2s ease;
