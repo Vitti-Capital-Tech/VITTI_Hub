@@ -195,7 +195,7 @@ const PROJECTS = [
     name: 'ASX Dashboard',
     tagline: 'See today\'s ASX news, AI-summarised.',
     url: import.meta.env.VITE_ASX_URL || '',
-    image: '/asx.jpg',
+    image: '/asx.png',
   },
   {
     id: 'jodi',
@@ -209,7 +209,7 @@ const PROJECTS = [
     name: 'Client Dashboard',
     tagline: 'View client portfolios, performance metrics, and account details.',
     url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
-    image: '/client.jpg',
+    image: '/client.png',
   },
   {
     id: 'vitti-bot',
