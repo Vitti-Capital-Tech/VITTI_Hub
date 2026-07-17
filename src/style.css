@@ -748,43 +748,67 @@ body::before {
 }
 
 /* Live dot — top-right of image */
-/* Corner badge (NEW / HOT) */
-.card-badge {
+/* Corner ribbon (NEW / HOT) with shine sweep */
+.card-ribbon {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 11px 5px 9px;
-  border-radius: 7px;
+  top: 0;
+  right: 0;
+  width: 118px;
+  height: 118px;
+  overflow: hidden;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.card-ribbon span {
+  position: absolute;
+  top: 24px;
+  right: -36px;
+  width: 160px;
+  padding: 6px 0;
+  text-align: center;
+  transform: rotate(45deg);
   font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  line-height: 1;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #ffffff;
-  z-index: 3;
+  overflow: hidden;
   box-shadow:
-    0 4px 14px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    0 3px 10px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
-.card-badge::before {
+/* Shine sweep */
+.card-ribbon span::after {
   content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.85);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 75%
+  );
+  transform: translateX(-130%);
+  animation: ribbonShine 4s ease-in-out infinite;
 }
 
-.card-badge-new {
+@keyframes ribbonShine {
+  0%, 55% { transform: translateX(-130%); }
+  100% { transform: translateX(130%); }
+}
+
+.card-ribbon-new span {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
 }
 
-.card-badge-hot {
+.card-ribbon-hot span {
   background: linear-gradient(135deg, #fb923c, #ea580c);
 }
 
