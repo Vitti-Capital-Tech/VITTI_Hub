@@ -804,12 +804,35 @@ body::before {
   100% { transform: translateX(130%); }
 }
 
-.card-badge-new {
+/* Execution & trading — live money flow (green) */
+.card-badge-live-trading {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+/* Copy / mirror trading (teal) */
+.card-badge-copy-trade {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+}
+
+/* Bot / automated execution (amber) */
+.card-badge-automated {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* Options analytics (blue) */
+.card-badge-options {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
 }
 
-.card-badge-hot {
-  background: linear-gradient(135deg, #fb923c, #ea580c);
+/* Portfolio & client (indigo) */
+.card-badge-portfolio {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+/* AI-generated / AI-summarised (violet) */
+.card-badge-ai,
+.card-badge-ai-news {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
 }
 
 /* Card body */

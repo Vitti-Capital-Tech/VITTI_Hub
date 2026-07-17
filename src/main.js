@@ -182,7 +182,7 @@ const PROJECTS = [
     tagline: "Run ratio spreads across paper & live trading.",
     url: import.meta.env.VITE_TRADE_URL || '',
     image: '/trade.png',
-    badge: 'hot',
+    badge: 'live-trading',
   },
   {
     id: 'mirror-dashboard',
@@ -190,7 +190,7 @@ const PROJECTS = [
     tagline: 'See trades in the follower accounts executed by the master account.',
     url: import.meta.env.VITE_MIRROR_URL || '',
     image: '/mirror.png',
-    badge: 'hot',
+    badge: 'copy-trade',
   },
   {
     id: 'asx-dashboard',
@@ -198,6 +198,7 @@ const PROJECTS = [
     tagline: 'See today\'s ASX news, AI-summarised.',
     url: import.meta.env.VITE_ASX_URL || '',
     image: '/asx.png',
+    badge: 'ai-news',
   },
   {
     id: 'jodi',
@@ -205,7 +206,7 @@ const PROJECTS = [
     tagline: 'Chart every put & call, side by side.',
     url: import.meta.env.VITE_JODI_URL || '',
     image: '/jodi.png',
-    badge: 'new',
+    badge: 'options',
   },
   {
     id: 'client-dashboard',
@@ -213,7 +214,7 @@ const PROJECTS = [
     tagline: 'View client portfolios, performance metrics, and account details.',
     url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
     image: '/client.png',
-    badge: 'new',
+    badge: 'portfolio',
   },
   {
     id: 'vitti-bot',
@@ -221,6 +222,7 @@ const PROJECTS = [
     tagline: "See today's option trades, executed by the BOT.",
     url: import.meta.env.VITE_BOT_URL || '',
     image: '/bot.png',
+    badge: 'automated',
   },
   {
     id: 'ideas-dashboard',
@@ -228,6 +230,7 @@ const PROJECTS = [
     tagline: "See today's content ideas, AI-generated.",
     url: import.meta.env.VITE_IDEAS_URL || '',
     image: '/ideas.png',
+    badge: 'ai',
   },
 ];
 
@@ -2044,7 +2047,7 @@ async function renderPortal() {
             <span class="card-hover-label">View Live</span>
           </div>
         </div>
-        ${p.badge ? `<span class="card-badge card-badge-${p.badge}">${p.badge.toUpperCase()}</span>` : ''}
+        ${p.badge ? `<span class="card-badge card-badge-${p.badge}">${p.badge.replace(/-/g, ' ').toUpperCase()}</span>` : ''}
       </div>
       <div class="card-body">
         <h2 class="card-title">${p.name}</h2>
