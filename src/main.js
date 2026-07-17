@@ -192,8 +192,8 @@ const PROJECTS = [
   },
   {
     id: 'option-scope',
-    name: 'Option Scope',
-    tagline: "Track live trades, spreads & algo signals.",
+    name: 'Ratio Spread',
+    tagline: "Run ratio spreads across paper & live trading.",
     url: import.meta.env.VITE_TRADE_URL || '',
     image: '/trade.png',
   },
@@ -217,6 +217,13 @@ const PROJECTS = [
     tagline: 'View client portfolios, performance metrics, and account details.',
     url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
     image: '/client.jpg',
+  },
+  {
+    id: 'jodi',
+    name: 'Jodi',
+    tagline: 'Chart every put & call, side by side.',
+    url: import.meta.env.VITE_JODI_URL || '',
+    image: '/jodi.png',
   },
 ];
 
