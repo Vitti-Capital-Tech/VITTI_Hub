@@ -2069,11 +2069,6 @@ async function renderPortal() {
           </div>
         </div>
         <div class="hdr-actions">
-          <div class="badge-live">
-            <span class="badge-dot"></span>
-            <span>All Systems Live</span>
-          </div>
-          <div class="viewer-divider"></div>
           <button class="btn-icon theme-btn" aria-label="Toggle Theme"></button>
           <div class="viewer-divider"></div>
           <button class="btn-lock" id="logout-btn" aria-label="Logout">
