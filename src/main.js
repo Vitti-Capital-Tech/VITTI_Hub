@@ -177,32 +177,11 @@ function renderBypassTerminal(statusText, callback) {
 // â”€â”€ Project data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const PROJECTS = [
   {
-    id: 'asx-dashboard',
-    name: 'ASX Dashboard',
-    tagline: 'See today\'s ASX news, AI-summarised.',
-    url: import.meta.env.VITE_ASX_URL || '',
-    image: '/asx.jpg',
-  },
-  {
-    id: 'ideas-dashboard',
-    name: 'Ideas Dashboard',
-    tagline: "See today's content ideas, AI-generated.",
-    url: import.meta.env.VITE_IDEAS_URL || '',
-    image: '/ideas.png',
-  },
-  {
     id: 'option-scope',
     name: 'Ratio Spread',
     tagline: "Run ratio spreads across paper & live trading.",
     url: import.meta.env.VITE_TRADE_URL || '',
     image: '/trade.png',
-  },
-  {
-    id: 'vitti-bot',
-    name: 'VITTI Bot',
-    tagline: "See today's option trades, executed by the BOT.",
-    url: import.meta.env.VITE_BOT_URL || '',
-    image: '/bot.jpeg',
   },
   {
     id: 'mirror-dashboard',
@@ -212,11 +191,11 @@ const PROJECTS = [
     image: '/mirror.png',
   },
   {
-    id: 'client-dashboard',
-    name: 'Client Dashboard',
-    tagline: 'View client portfolios, performance metrics, and account details.',
-    url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
-    image: '/client.jpg',
+    id: 'asx-dashboard',
+    name: 'ASX Dashboard',
+    tagline: 'See today\'s ASX news, AI-summarised.',
+    url: import.meta.env.VITE_ASX_URL || '',
+    image: '/asx.jpg',
   },
   {
     id: 'jodi',
@@ -224,6 +203,27 @@ const PROJECTS = [
     tagline: 'Chart every put & call, side by side.',
     url: import.meta.env.VITE_JODI_URL || '',
     image: '/jodi.png',
+  },
+  {
+    id: 'client-dashboard',
+    name: 'Client Dashboard',
+    tagline: 'View client portfolios, performance metrics, and account details.',
+    url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
+    image: '/client.jpg',
+  },
+  {
+    id: 'vitti-bot',
+    name: 'VITTI Bot',
+    tagline: "See today's option trades, executed by the BOT.",
+    url: import.meta.env.VITE_BOT_URL || '',
+    image: '/bot.jpeg',
+  },
+  {
+    id: 'ideas-dashboard',
+    name: 'Ideas Dashboard',
+    tagline: "See today's content ideas, AI-generated.",
+    url: import.meta.env.VITE_IDEAS_URL || '',
+    image: '/ideas.png',
   },
 ];
 
