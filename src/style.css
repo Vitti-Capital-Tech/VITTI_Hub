@@ -753,38 +753,36 @@ body::before {
   position: absolute;
   top: 12px;
   right: 12px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 5px 11px;
-  border-radius: 100px;
-  font-size: 10.5px;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  line-height: 1;
   text-transform: uppercase;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
   z-index: 3;
 }
 
+.card-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+}
+
 .card-badge-new {
-  color: #60a5fa;
-  background: rgba(59, 130, 246, 0.16);
-  border: 1px solid rgba(59, 130, 246, 0.45);
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.35);
+  background: #2563eb;
 }
 
 .card-badge-hot {
-  color: #fb923c;
-  background: rgba(249, 115, 22, 0.16);
-  border: 1px solid rgba(249, 115, 22, 0.45);
-  box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
-  animation: pulseHot 2.2s ease-in-out infinite;
-}
-
-@keyframes pulseHot {
-  0%, 100% { box-shadow: 0 0 12px rgba(249, 115, 22, 0.4); }
-  50% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.7); }
+  background: #ea580c;
 }
 
 /* Card body */
