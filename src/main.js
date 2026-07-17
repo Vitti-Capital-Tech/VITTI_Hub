@@ -182,6 +182,7 @@ const PROJECTS = [
     tagline: "Run ratio spreads across paper & live trading.",
     url: import.meta.env.VITE_TRADE_URL || '',
     image: '/trade.png',
+    badge: 'hot',
   },
   {
     id: 'mirror-dashboard',
@@ -189,6 +190,7 @@ const PROJECTS = [
     tagline: 'See trades in the follower accounts executed by the master account.',
     url: import.meta.env.VITE_MIRROR_URL || '',
     image: '/mirror.png',
+    badge: 'hot',
   },
   {
     id: 'asx-dashboard',
@@ -203,6 +205,7 @@ const PROJECTS = [
     tagline: 'Chart every put & call, side by side.',
     url: import.meta.env.VITE_JODI_URL || '',
     image: '/jodi.png',
+    badge: 'new',
   },
   {
     id: 'client-dashboard',
@@ -210,6 +213,7 @@ const PROJECTS = [
     tagline: 'View client portfolios, performance metrics, and account details.',
     url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
     image: '/client.png',
+    badge: 'new',
   },
   {
     id: 'vitti-bot',
@@ -2040,7 +2044,7 @@ async function renderPortal() {
             <span class="card-hover-label">View Live</span>
           </div>
         </div>
-        <div class="card-live-dot"><span class="sdot"></span></div>
+        ${p.badge ? `<div class="card-badge card-badge-${p.badge}">${p.badge === 'hot' ? '🔥 HOT' : '✦ NEW'}</div>` : ''}
       </div>
       <div class="card-body">
         <h2 class="card-title">${p.name}</h2>
