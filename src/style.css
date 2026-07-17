@@ -660,7 +660,7 @@ body::before {
 /* Screenshot / image */
 .card-img {
   width: 100%;
-  height: 300px;
+  height: 230px;
   background: rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
@@ -675,7 +675,6 @@ body::before {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
   transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               filter 0.4s ease;
 }
@@ -918,7 +917,7 @@ body::before {
     padding-bottom: 48px;
   }
 
-  .card-img { height: 260px; }
+  .card-img { height: 200px; }
 
   .footer {
     padding: 16px 20px;
@@ -942,7 +941,7 @@ body::before {
     padding-bottom: 40px;
   }
 
-  .card-img { height: 280px; }
+  .card-img { height: 220px; }
 
   .card-hover-label { font-size: 11px; }
   .card-hover-arrow { width: 44px; height: 44px; }
@@ -956,7 +955,7 @@ body::before {
 /* Very small phones */
 @media (max-width: 380px) {
   .hdr-name { font-size: 12px; }
-  .card-img { height: 240px; }
+  .card-img { height: 190px; }
   .keypad { gap: 7px; }
   .key { height: 54px; font-size: 17px; }
 }
