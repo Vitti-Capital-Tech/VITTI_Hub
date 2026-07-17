@@ -2044,12 +2044,10 @@ async function renderPortal() {
             <span class="card-hover-label">View Live</span>
           </div>
         </div>
+        ${p.badge ? `<span class="card-badge card-badge-${p.badge}">${p.badge.toUpperCase()}</span>` : ''}
       </div>
       <div class="card-body">
-        <div class="card-title-row">
-          <h2 class="card-title">${p.name}</h2>
-          ${p.badge ? `<span class="card-badge card-badge-${p.badge}">${p.badge.toUpperCase()}</span>` : ''}
-        </div>
+        <h2 class="card-title">${p.name}</h2>
         <p class="card-tagline">${p.tagline}</p>
       </div>
     </a>

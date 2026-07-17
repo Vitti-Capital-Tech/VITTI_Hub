@@ -748,52 +748,44 @@ body::before {
 }
 
 /* Live dot — top-right of image */
-/* Inline badge (NEW / HOT) next to card title */
+/* Corner badge (NEW / HOT) */
 .card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 8px 3px 7px;
-  border-radius: 5px;
+  gap: 6px;
+  padding: 5px 11px 5px 9px;
+  border-radius: 7px;
   font-family: var(--font-display);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.1em;
   line-height: 1;
   text-transform: uppercase;
-  flex-shrink: 0;
+  color: #ffffff;
+  z-index: 3;
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .card-badge::before {
   content: '';
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: currentColor;
+  background: #ffffff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.85);
 }
 
 .card-badge-new {
-  color: #60a5fa;
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
 }
 
 .card-badge-hot {
-  color: #fb923c;
-  background: rgba(249, 115, 22, 0.12);
-  border: 1px solid rgba(249, 115, 22, 0.3);
-}
-
-[data-theme="light"] .card-badge-new {
-  color: #2563eb;
-  background: rgba(37, 99, 235, 0.1);
-  border-color: rgba(37, 99, 235, 0.3);
-}
-
-[data-theme="light"] .card-badge-hot {
-  color: #ea580c;
-  background: rgba(234, 88, 12, 0.1);
-  border-color: rgba(234, 88, 12, 0.3);
+  background: linear-gradient(135deg, #fb923c, #ea580c);
 }
 
 /* Card body */
@@ -815,18 +807,12 @@ body::before {
   );
 }
 
-.card-title-row {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 5px;
-}
-
 .card-title {
   font-family: var(--font-display);
   font-size: clamp(15px, 1.5vw, 17px);
   font-weight: 700;
   color: var(--text-1);
+  margin-bottom: 5px;
   letter-spacing: -0.01em;
   line-height: 1.25;
   transition: color 0.2s ease;
