@@ -10,6 +10,11 @@ const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const GUEST_ID = import.meta.env.VITE_GUEST_ID || '';
 const THEME_KEY = 'vitti_hub_theme';
 
+// External users allowed via OTP, each restricted to a single dashboard.
+const RESTRICTED_USERS = {
+  'udeshidhwani22@gmail.com': 'ratio-spread-scanner',
+};
+
 const isMarketingTeam = (guest) => {
   if (!guest) return false;
   const g = guest.trim().toLowerCase();
@@ -268,11 +273,12 @@ async function initAuth() {
     }
     renderEmailForm();
   } else {
-    const email = session.user.email;
+    const email = (session.user.email || '').toLowerCase();
     const isVitti = email.endsWith('@vitti.capital') || email.endsWith('@vitticapital.ai');
     const isTest = email === 'tusharbhardwaj2617@gmail.com';
+    const isRestricted = email in RESTRICTED_USERS;
 
-    if (!isVitti && !isTest) {
+    if (!isVitti && !isTest && !isRestricted) {
       await supabase.auth.signOut();
       renderAccessDenied();
     } else {
@@ -341,8 +347,9 @@ function renderEmailForm() {
 
       const isVitti = email.endsWith('@vitti.capital') || email.endsWith('@vitticapital.ai');
       const isTest = email === 'tusharbhardwaj2617@gmail.com';
+      const isRestricted = email in RESTRICTED_USERS;
 
-      if (!isVitti && !isTest) {
+      if (!isVitti && !isTest && !isRestricted) {
         errEl.textContent = 'Please use a @vitti.capital work email';
         errEl.classList.add('show');
         triggerShake('email-input');
@@ -2033,9 +2040,19 @@ async function renderPortal() {
   const isDark = getTheme() === 'dark';
 
   const storedGuest = localStorage.getItem('vitti_guest');
-  const allowedProjects = isMarketingTeam(storedGuest)
-    ? PROJECTS.filter(p => p.id === 'ideas-dashboard')
-    : PROJECTS;
+
+  const { data: { user } } = await supabase.auth.getUser();
+  const userEmail = (user?.email || '').toLowerCase();
+  const restrictedTo = RESTRICTED_USERS[userEmail];
+
+  let allowedProjects;
+  if (isMarketingTeam(storedGuest)) {
+    allowedProjects = PROJECTS.filter(p => p.id === 'ideas-dashboard');
+  } else if (restrictedTo) {
+    allowedProjects = PROJECTS.filter(p => p.id === restrictedTo);
+  } else {
+    allowedProjects = PROJECTS;
+  }
 
   const cards = allowedProjects.map((p, i) => `
     <a class="card" id="card-${p.id}" href="${p.url}" target="_blank" style="transition-delay: ${i * 100}ms"
@@ -2064,7 +2081,6 @@ async function renderPortal() {
     </a>
   `).join('');
 
-  const { data: { user } } = await supabase.auth.getUser();
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
   const capitalName = userName.charAt(0).toUpperCase() + userName.slice(1);
 
