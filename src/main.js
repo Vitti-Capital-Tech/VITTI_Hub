@@ -178,11 +178,19 @@ function renderBypassTerminal(statusText, callback) {
 const PROJECTS = [
   {
     id: 'option-scope',
-    name: 'Ratio Spread',
-    tagline: "Run ratio spreads across paper & live trading.",
+    name: 'Live Trading',
+    tagline: "Execute and monitor trades live, in real time.",
     url: import.meta.env.VITE_TRADE_URL || '',
     image: '/trade.png',
     badge: 'live-trading',
+  },
+  {
+    id: 'ratio-spread-scanner',
+    name: 'Ratio Spread Scanner',
+    tagline: "Scan the options chain for ratio spread setups.",
+    url: import.meta.env.VITE_RATIO_SCANNER_URL || '',
+    image: '/ratio.png',
+    badge: 'scanner',
   },
   {
     id: 'mirror-dashboard',
