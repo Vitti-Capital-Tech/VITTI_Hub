@@ -13,6 +13,7 @@ const THEME_KEY = 'vitti_hub_theme';
 // External users allowed via OTP, each restricted to a single dashboard.
 const RESTRICTED_USERS = {
   'udeshidhwani22@gmail.com': 'ratio-spread-scanner',
+  'tusharbhardwaj2617@gmail.com': 'ratio-spread-scanner',
 };
 
 const isMarketingTeam = (guest) => {
