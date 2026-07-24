@@ -86,9 +86,12 @@ function showSessionExpiredOverlay() {
 }
 
 // â”€â”€ Single Active Session Enforcement â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Only one device may hold a live session per user. Logging in elsewhere
-// rewrites the registry row, and this device is signed out via Realtime.
-const SESSION_ID_KEY = 'vitti_session_id';
+// Only one BROWSER/DEVICE may hold a live session per user. Identity is a
+// stable per-browser device ID (persisted in localStorage) — every tab in the
+// same browser shares it, so tabs never kick each other; only a genuinely
+// different browser/device has a different ID. Logging in elsewhere rewrites
+// the registry row and this device is signed out via Realtime.
+const DEVICE_ID_KEY = 'vitti_device_id';
 let sessionGuardChannel = null;
 
 function newSessionId() {
@@ -96,14 +99,24 @@ function newSessionId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
-// Fresh login: claim the single-session slot for this user, kicking any other device.
+// Stable identifier for THIS browser, reused across logins and shared by all tabs.
+function getDeviceId() {
+  let id = localStorage.getItem(DEVICE_ID_KEY);
+  if (!id) {
+    id = newSessionId();
+    localStorage.setItem(DEVICE_ID_KEY, id);
+  }
+  return id;
+}
+
+// Fresh login: claim the single-session slot for this browser, kicking other devices.
+// Writing our own (stable) device ID is a no-op for sibling tabs — they share it.
 async function claimSession(session) {
   if (!session || !session.user) return;
-  const sid = newSessionId();
-  localStorage.setItem(SESSION_ID_KEY, sid);
+  const deviceId = getDeviceId();
   const { error } = await supabase.from('active_sessions').upsert({
     user_id: session.user.id,
-    session_id: sid,
+    session_id: deviceId,
     device_info: (navigator.userAgent || '').slice(0, 200),
     updated_at: new Date().toISOString(),
   }, { onConflict: 'user_id' });
@@ -112,10 +125,10 @@ async function claimSession(session) {
   subscribeSessionGuard(session.user.id, session.access_token);
 }
 
-// Reload with an existing session: confirm we still own the slot.
+// Reload with an existing session: confirm this browser still owns the slot.
 async function verifySession(session) {
   if (!session || !session.user) return true;
-  const localSid = localStorage.getItem(SESSION_ID_KEY);
+  const deviceId = getDeviceId();
   const { data, error } = await supabase
     .from('active_sessions')
     .select('session_id')
@@ -131,8 +144,8 @@ async function verifySession(session) {
     await claimSession(session);
     return true;
   }
-  if (!localSid || data.session_id !== localSid) {
-    // Superseded by another device while this one was away.
+  if (data.session_id !== deviceId) {
+    // Superseded by a different browser/device while this one was away.
     await forceSessionSignOut();
     return false;
   }
@@ -156,9 +169,10 @@ async function subscribeSessionGuard(userId, accessToken) {
       table: 'active_sessions',
       filter: `user_id=eq.${userId}`,
     }, (payload) => {
-      const registrySid = payload.new && payload.new.session_id;
-      // Compare against localStorage so sibling tabs on THIS device don't kick each other.
-      if (registrySid && registrySid !== localStorage.getItem(SESSION_ID_KEY)) {
+      const registryId = payload.new && payload.new.session_id;
+      // Compare against our stable device ID so sibling tabs never kick each other;
+      // only a claim from a different browser/device triggers a sign-out.
+      if (registryId && registryId !== getDeviceId()) {
         forceSessionSignOut();
       }
     })
@@ -174,7 +188,7 @@ function teardownSessionGuard() {
 
 async function forceSessionSignOut() {
   teardownSessionGuard();
-  localStorage.removeItem(SESSION_ID_KEY);
+  // Keep vitti_device_id stable so a re-login from this browser reuses its identity.
   localStorage.removeItem('vitti_last_login');
   await supabase.auth.signOut();
   showSessionKickedOverlay();
@@ -2297,7 +2311,6 @@ async function renderPortal() {
       }
     } catch (_) { /* best-effort cleanup */ }
     teardownSessionGuard();
-    localStorage.removeItem(SESSION_ID_KEY);
     await supabase.auth.signOut();
     location.reload();
   });
