@@ -488,7 +488,7 @@ function renderEmailForm() {
       const isRestricted = email in RESTRICTED_USERS;
 
       if (!isVitti && !isTest && !isRestricted) {
-        errEl.textContent = 'Please use a @vitti.capital work email';
+        errEl.textContent = 'Please use authenticated email address.';
         errEl.classList.add('show');
         triggerShake('email-input');
         return;
