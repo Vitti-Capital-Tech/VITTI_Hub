@@ -109,7 +109,7 @@ async function claimSession(session) {
   }, { onConflict: 'user_id' });
   // Fail open: never lock a user out because the registry is unreachable.
   if (error) console.warn('[session-guard] claim failed:', error.message);
-  subscribeSessionGuard(session.user.id);
+  subscribeSessionGuard(session.user.id, session.access_token);
 }
 
 // Reload with an existing session: confirm we still own the slot.
@@ -124,7 +124,7 @@ async function verifySession(session) {
 
   if (error) { // Fail open on registry/network errors.
     console.warn('[session-guard] verify failed:', error.message);
-    subscribeSessionGuard(session.user.id);
+    subscribeSessionGuard(session.user.id, session.access_token);
     return true;
   }
   if (!data) { // No row yet (pre-existing session from before this feature) → claim it.
@@ -136,12 +136,18 @@ async function verifySession(session) {
     await forceSessionSignOut();
     return false;
   }
-  subscribeSessionGuard(session.user.id);
+  subscribeSessionGuard(session.user.id, session.access_token);
   return true;
 }
 
-function subscribeSessionGuard(userId) {
+async function subscribeSessionGuard(userId, accessToken) {
   if (sessionGuardChannel) return; // already listening
+  // Realtime must authenticate with the user's JWT, otherwise RLS on
+  // active_sessions filters out the change and the push never arrives.
+  if (accessToken) {
+    try { await supabase.realtime.setAuth(accessToken); }
+    catch (e) { console.warn('[session-guard] setAuth failed:', e && e.message); }
+  }
   sessionGuardChannel = supabase
     .channel('session-guard-' + userId)
     .on('postgres_changes', {
@@ -2321,6 +2327,9 @@ supabase.auth.onAuthStateChange((event, session) => {
     claimSession(session);
   } else if (event === 'INITIAL_SESSION' && session) {
     verifySession(session);
+  } else if (event === 'TOKEN_REFRESHED' && session) {
+    // Keep the Realtime connection's JWT current so RLS keeps delivering changes.
+    supabase.realtime.setAuth(session.access_token);
   } else if (event === 'SIGNED_OUT') {
     teardownSessionGuard();
   }
