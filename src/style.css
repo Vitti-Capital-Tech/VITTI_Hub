@@ -1421,7 +1421,8 @@ body::before {
 }
 
 /* -- Session Expired Overlay -- */
-#session-expired-overlay {
+#session-expired-overlay,
+#session-kicked-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 8, 20, 0.9);

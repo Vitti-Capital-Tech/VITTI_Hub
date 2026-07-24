@@ -85,6 +85,122 @@ function showSessionExpiredOverlay() {
   document.body.appendChild(overlay);
 }
 
+// â”€â”€ Single Active Session Enforcement â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Only one device may hold a live session per user. Logging in elsewhere
+// rewrites the registry row, and this device is signed out via Realtime.
+const SESSION_ID_KEY = 'vitti_session_id';
+let sessionGuardChannel = null;
+
+function newSessionId() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+
+// Fresh login: claim the single-session slot for this user, kicking any other device.
+async function claimSession(session) {
+  if (!session || !session.user) return;
+  const sid = newSessionId();
+  localStorage.setItem(SESSION_ID_KEY, sid);
+  const { error } = await supabase.from('active_sessions').upsert({
+    user_id: session.user.id,
+    session_id: sid,
+    device_info: (navigator.userAgent || '').slice(0, 200),
+    updated_at: new Date().toISOString(),
+  }, { onConflict: 'user_id' });
+  // Fail open: never lock a user out because the registry is unreachable.
+  if (error) console.warn('[session-guard] claim failed:', error.message);
+  subscribeSessionGuard(session.user.id);
+}
+
+// Reload with an existing session: confirm we still own the slot.
+async function verifySession(session) {
+  if (!session || !session.user) return true;
+  const localSid = localStorage.getItem(SESSION_ID_KEY);
+  const { data, error } = await supabase
+    .from('active_sessions')
+    .select('session_id')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (error) { // Fail open on registry/network errors.
+    console.warn('[session-guard] verify failed:', error.message);
+    subscribeSessionGuard(session.user.id);
+    return true;
+  }
+  if (!data) { // No row yet (pre-existing session from before this feature) → claim it.
+    await claimSession(session);
+    return true;
+  }
+  if (!localSid || data.session_id !== localSid) {
+    // Superseded by another device while this one was away.
+    await forceSessionSignOut();
+    return false;
+  }
+  subscribeSessionGuard(session.user.id);
+  return true;
+}
+
+function subscribeSessionGuard(userId) {
+  if (sessionGuardChannel) return; // already listening
+  sessionGuardChannel = supabase
+    .channel('session-guard-' + userId)
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'active_sessions',
+      filter: `user_id=eq.${userId}`,
+    }, (payload) => {
+      const registrySid = payload.new && payload.new.session_id;
+      // Compare against localStorage so sibling tabs on THIS device don't kick each other.
+      if (registrySid && registrySid !== localStorage.getItem(SESSION_ID_KEY)) {
+        forceSessionSignOut();
+      }
+    })
+    .subscribe();
+}
+
+function teardownSessionGuard() {
+  if (sessionGuardChannel) {
+    supabase.removeChannel(sessionGuardChannel);
+    sessionGuardChannel = null;
+  }
+}
+
+async function forceSessionSignOut() {
+  teardownSessionGuard();
+  localStorage.removeItem(SESSION_ID_KEY);
+  localStorage.removeItem('vitti_last_login');
+  await supabase.auth.signOut();
+  showSessionKickedOverlay();
+}
+
+function showSessionKickedOverlay() {
+  if (document.getElementById('session-kicked-overlay')) return;
+  const overlay = document.createElement('div');
+  overlay.id = 'session-kicked-overlay';
+  overlay.innerHTML = `
+    <div class="expired-card">
+      <div class="expired-icon-wrap">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+          <path d="M12 3v4"></path>
+          <path d="M8 21h8"></path>
+          <line x1="7" y1="14" x2="7" y2="14"></line>
+          <line x1="12" y1="14" x2="12" y2="14"></line>
+        </svg>
+      </div>
+      <h2 class="expired-title">Signed Out</h2>
+      <p class="expired-text">Your account was just accessed on another device. For your security, only one active session is allowed at a time.</p>
+      <div class="expired-action">
+        <button onclick="location.reload()" class="btn-primary expired-btn">
+          Sign In Again
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
 // â”€â”€ Animation Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function triggerShake(inputId) {
   const card = document.querySelector('.pin-card');
@@ -2167,6 +2283,15 @@ async function renderPortal() {
 
   document.getElementById('logout-btn').addEventListener('click', async () => {
     localStorage.removeItem('vitti_guest');
+    // Release the single-session slot (while we still hold a valid JWT).
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        await supabase.from('active_sessions').delete().eq('user_id', session.user.id);
+      }
+    } catch (_) { /* best-effort cleanup */ }
+    teardownSessionGuard();
+    localStorage.removeItem(SESSION_ID_KEY);
     await supabase.auth.signOut();
     location.reload();
   });
@@ -2188,5 +2313,18 @@ async function renderPortal() {
 
 // â”€â”€ Boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 applyTheme(getTheme());
+
+// Single-active-session guard. INITIAL_SESSION = restored on reload (verify we
+// still own the slot); SIGNED_IN = fresh login (claim the slot, kicking others).
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session) {
+    claimSession(session);
+  } else if (event === 'INITIAL_SESSION' && session) {
+    verifySession(session);
+  } else if (event === 'SIGNED_OUT') {
+    teardownSessionGuard();
+  }
+});
+
 checkSessionExpiry();
 initAuth();
