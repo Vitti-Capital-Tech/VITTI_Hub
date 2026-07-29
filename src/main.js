@@ -336,6 +336,14 @@ const PROJECTS = [
     badge: 'scanner',
   },
   {
+    id: 'xaut-paper-trading',
+    name: 'XAUT Paper Trading',
+    tagline: "Practice gold (XAUT) trades with simulated capital.",
+    url: import.meta.env.VITE_XAUT_URL || '',
+    image: '/xaut.png',
+    badge: 'paper-trading',
+  },
+  {
     id: 'mirror-dashboard',
     name: 'Mirror Dashboard',
     tagline: 'See trades in the follower accounts executed by the master account.',
