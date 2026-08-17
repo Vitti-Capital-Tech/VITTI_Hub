@@ -10,11 +10,13 @@ const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const GUEST_ID = import.meta.env.VITE_GUEST_ID || '';
 const THEME_KEY = 'vitti_hub_theme';
 
-// External users allowed via OTP, each restricted to a single dashboard.
+// External users allowed via OTP, each restricted to specific dashboard(s).
+// Value is a project id, or an array of project ids for multi-dashboard access.
 const RESTRICTED_USERS = {
   'udeshidhwani22@gmail.com': 'ratio-spread-scanner',
   'tusharbhardwaj2617@gmail.com': 'ratio-spread-scanner',
-  'usert7556@gmail.com': 'ratio-spread-scanner',
+  'usert7556@gmail.com': ['option-scope', 'xaut-paper-trading', 'jodi'],
+  'shahkajal991@gmail.com': ['option-scope', 'xaut-paper-trading', 'jodi'],
 };
 
 const isMarketingTeam = (guest) => {
@@ -2195,7 +2197,8 @@ async function renderPortal() {
   if (isMarketingTeam(storedGuest)) {
     allowedProjects = PROJECTS.filter(p => p.id === 'ideas-dashboard');
   } else if (restrictedTo) {
-    allowedProjects = PROJECTS.filter(p => p.id === restrictedTo);
+    const allowedIds = Array.isArray(restrictedTo) ? restrictedTo : [restrictedTo];
+    allowedProjects = PROJECTS.filter(p => allowedIds.includes(p.id));
   } else {
     allowedProjects = PROJECTS;
   }
