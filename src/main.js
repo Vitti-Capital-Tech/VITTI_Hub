@@ -346,6 +346,14 @@ const PROJECTS = [
     badge: 'paper-trading',
   },
   {
+    id: 'daily-movers',
+    name: 'Daily Movers',
+    tagline: "Track the day's biggest market movers.",
+    url: import.meta.env.VITE_DAILY_MOVERS_URL || '',
+    image: '/daily_movers.png',
+    badge: 'markets',
+  },
+  {
     id: 'mirror-dashboard',
     name: 'Mirror Dashboard',
     tagline: 'See trades in the follower accounts executed by the master account.',
