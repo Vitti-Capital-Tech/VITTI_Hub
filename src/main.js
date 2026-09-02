@@ -15,6 +15,7 @@ const THEME_KEY = 'vitti_hub_theme';
 const RESTRICTED_USERS = {
   'udeshidhwani22@gmail.com': 'ratio-spread-scanner',
   'tusharbhardwaj2617@gmail.com': 'ratio-spread-scanner',
+  'dbsons.1212@gmail.com': 'ratio-spread-scanner',
   'usert7556@gmail.com': ['option-scope', 'xaut-paper-trading', 'jodi'],
   'shahkajal991@gmail.com': ['option-scope', 'xaut-paper-trading', 'jodi'],
 };
