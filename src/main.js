@@ -2268,6 +2268,7 @@ async function renderPortal() {
     </a>
   `).join('');
 
+  const user = session?.user ?? null;
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
   const capitalName = userName.charAt(0).toUpperCase() + userName.slice(1);
 
