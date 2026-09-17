@@ -347,6 +347,14 @@ const PROJECTS = [
     badge: 'paper-trading',
   },
   {
+    id: 'delta-predict',
+    name: 'Predict Paper Trading',
+    tagline: "Practice BTC & ETH Predict trades with simulated capital.",
+    url: import.meta.env.VITE_PREDICT_URL || '',
+    image: '/predict.png',
+    badge: 'paper-trading',
+  },
+  {
     id: 'daily-movers',
     name: 'Daily Movers',
     tagline: "Track the day's biggest market movers.",
