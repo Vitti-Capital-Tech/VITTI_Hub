@@ -240,10 +240,13 @@ function triggerShake(inputId) {
   }
 }
 
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function triggerSuccess(inputId, nextStep) {
   const card = document.querySelector('.pin-card');
   const input = document.getElementById(inputId);
   const container = input.parentElement;
+  const pinScreen = document.getElementById('pin-screen');
 
   if (input) input.classList.add('success');
 
@@ -257,12 +260,26 @@ async function triggerSuccess(inputId, nextStep) {
   check.style.top = '14px';
   container.appendChild(check);
 
-  setTimeout(() => {
-    card.style.animation = 'shrinkOut 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-    setTimeout(() => {
-      nextStep();
-    }, 550);
-  }, 600);
+  await wait(600);
+  if (card) card.style.animation = 'shrinkOut 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+  await wait(600);
+
+  // Fade the whole screen out, not just the card. Shrinking the card alone
+  // left the login background sitting there — that was the "landing page"
+  // showing between the animation and the dashboard.
+  if (pinScreen) {
+    pinScreen.style.transition = 'opacity 0.3s ease';
+    pinScreen.style.opacity = '0';
+  }
+  await wait(300);
+
+  // nextStep paints the next view, so it has to run after the animation, not
+  // alongside it — it replaces #app and would tear out the card mid-shrink.
+  try {
+    await nextStep();
+  } catch (e) {
+    console.error('transition failed', e);
+  }
 }
 
 function renderBypassTerminal(statusText, callback) {
@@ -2206,8 +2223,12 @@ async function renderPortal() {
 
   const storedGuest = localStorage.getItem('vitti_guest');
 
-  const { data: { user } } = await supabase.auth.getUser();
-  const userEmail = (user?.email || '').toLowerCase();
+  // getSession() reads the stored session; getUser() round-trips to Supabase
+  // to re-validate it. That request was the visible delay before the portal
+  // appeared, and it is redundant: initAuth() has already gated entry on the
+  // same session, and the real boundary is RLS on each dashboard.
+  const { data: { session } } = await supabase.auth.getSession();
+  const userEmail = (session?.user?.email || '').toLowerCase();
   const restrictedTo = RESTRICTED_USERS[userEmail];
 
   let allowedProjects;
