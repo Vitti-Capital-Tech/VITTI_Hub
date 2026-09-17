@@ -260,18 +260,18 @@ async function triggerSuccess(inputId, nextStep) {
   check.style.top = '14px';
   container.appendChild(check);
 
-  await wait(600);
-  if (card) card.style.animation = 'shrinkOut 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-  await wait(600);
+  await wait(400);
+  if (card) card.style.animation = 'shrinkOut 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+  await wait(330);
 
   // Fade the whole screen out, not just the card. Shrinking the card alone
   // left the login background sitting there — that was the "landing page"
   // showing between the animation and the dashboard.
   if (pinScreen) {
-    pinScreen.style.transition = 'opacity 0.3s ease';
+    pinScreen.style.transition = 'opacity 0.22s ease';
     pinScreen.style.opacity = '0';
   }
-  await wait(300);
+  await wait(220);
 
   // nextStep paints the next view, so it has to run after the animation, not
   // alongside it — it replaces #app and would tear out the card mid-shrink.
@@ -285,12 +285,14 @@ async function triggerSuccess(inputId, nextStep) {
 function renderBypassTerminal(statusText, callback) {
   // Step 1: Fade the whole login screen out cleanly
   const pinScreen = document.getElementById('pin-screen');
-  if (pinScreen) {
+  const alreadyFaded = pinScreen && pinScreen.style.opacity === '0';
+  if (pinScreen && !alreadyFaded) {
     pinScreen.style.transition = 'opacity 0.45s ease';
     pinScreen.style.opacity = '0';
   }
 
-  // Step 2: Mount the branded splash after screen fades
+  // Step 2: Mount the branded splash once the screen has faded. When the
+  // caller faded it already there is nothing to wait for.
   setTimeout(() => {
     const overlay = document.createElement('div');
     overlay.id = 'bypass-splash';
@@ -323,18 +325,18 @@ function renderBypassTerminal(statusText, callback) {
       if (bar) bar.style.width = '100%';
     }, 180);
 
-    // Fade out and redirect after progress completes
+    // Fade out and hand over once the progress sweep has finished
     setTimeout(() => {
       overlay.style.opacity = '0';
-      setTimeout(() => {
-        overlay.remove();
-        // Also remove the old login screen so it never flashes back
-        if (pinScreen) pinScreen.remove();
-        callback();
-      }, 550);
-    }, 2200);
+      // Paint the portal underneath while the splash is still fading, so the
+      // handover has nothing visible behind it.
+      Promise.resolve()
+        .then(() => { if (pinScreen) pinScreen.remove(); return callback(); })
+        .catch((e) => console.error('portal render failed', e));
+      setTimeout(() => overlay.remove(), 420);
+    }, 1350);
 
-  }, 450);
+  }, alreadyFaded ? 60 : 450);
 }
 
 // â”€â”€ Project data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
