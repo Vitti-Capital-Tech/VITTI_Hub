@@ -18,6 +18,7 @@ const RESTRICTED_USERS = {
   'dbsons.1212@gmail.com': 'ratio-spread-scanner',
   'usert7556@gmail.com': ['option-scope', 'xaut-paper-trading', 'jodi'],
   'shahkajal991@gmail.com': ['option-scope', 'ratio-spread-scanner', 'delta-predict', 'mirror-dashboard'],
+  'pratikdanani@gmail.com': ['option-scope', 'ratio-spread-scanner']
 };
 
 const isMarketingTeam = (guest) => {
