@@ -375,6 +375,14 @@ const PROJECTS = [
     badge: 'paper-trading',
   },
   {
+    id: 'delta-clone',
+    name: 'Delta Clone',
+    tagline: "Practice futures & options trades with simulated capital.",
+    url: import.meta.env.VITE_DELTA_CLONE_URL || 'https://delta.vitticapital.ai',
+    image: '/delta_clone.png',
+    badge: 'paper-trading',
+  },
+  {
     id: 'daily-movers',
     name: 'Daily Movers',
     tagline: "Track the day's biggest market movers.",
