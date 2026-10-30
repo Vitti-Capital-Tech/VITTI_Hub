@@ -378,7 +378,7 @@ const PROJECTS = [
     id: 'delta-clone',
     name: 'Delta Clone',
     tagline: "Practice futures & options trades with simulated capital.",
-    url: import.meta.env.VITE_DELTA_CLONE_URL || 'https://delta.vitticapital.ai',
+    url: import.meta.env.VITE_DELTA_CLONE_URL || '',
     image: '/delta_clone.png',
     badge: 'paper-trading',
   },
