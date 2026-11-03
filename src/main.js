@@ -495,8 +495,8 @@ function renderEmailForm() {
         <p class="pin-heading">Login</p>
         <p class="pin-sub">Enter your work email to receive a secure access code</p>
         
-        <form class="auth-form" id="email-form">
-          <input type="text" id="email-input" class="auth-input" placeholder="name@vitti.capital" autofocus />
+        <form class="auth-form" id="email-form" novalidate>
+          <input type="email" id="email-input" class="auth-input" placeholder="name@vitti.capital" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="email" autofocus />
           <p class="auth-err" id="auth-err"></p>
           <button type="submit" class="btn-primary" id="send-otp-btn">Send Access Code</button>
         </form>
@@ -521,7 +521,11 @@ function renderEmailForm() {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const email = document.getElementById('email-input').value.trim().toLowerCase();
+      // Mobile keyboards can inject spaces / zero-width chars that trim() misses
+      const email = document.getElementById('email-input').value
+        .normalize('NFKC')
+        .replace(/[\s​-‍⁠﻿]/g, '')
+        .toLowerCase();
       const errEl = document.getElementById('auth-err');
 
       if (isMarketingTeam(email) || email === 'trade') {
