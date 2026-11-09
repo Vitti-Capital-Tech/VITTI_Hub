@@ -12,15 +12,16 @@ const THEME_KEY = 'vitti_hub_theme';
 
 // External users allowed via OTP, each restricted to specific dashboard(s).
 // Value is a project id, or an array of project ids for multi-dashboard access.
-const RESTRICTED_USERS = {
+// Keys are lowercased below, since every lookup uses the lowercased email.
+const RESTRICTED_USERS = Object.fromEntries(Object.entries({
   'udeshidhwani22@gmail.com': 'ratio-spread-scanner',
   'tusharbhardwaj2617@gmail.com': 'ratio-spread-scanner',
   'dbsons.1212@gmail.com': 'ratio-spread-scanner',
   'usert7556@gmail.com': ['option-scope', 'xaut-paper-trading', 'jodi'],
   'shahkajal991@gmail.com': ['option-scope', 'ratio-spread-scanner', 'delta-predict', 'mirror-dashboard', 'delta-clone'],
   'pratikdanani@gmail.com': ['option-scope', 'ratio-spread-scanner', 'delta-clone'],
-  'Prakhar1196@gmail.com': 'option-scope'
-};
+  'prakhar1196@gmail.com': 'option-scope'
+}).map(([email, projects]) => [email.trim().toLowerCase(), projects]));
 
 const isMarketingTeam = (guest) => {
   if (!guest) return false;
