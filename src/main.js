@@ -19,8 +19,9 @@ const RESTRICTED_USERS = Object.fromEntries(Object.entries({
   'dbsons.1212@gmail.com': 'ratio-spread-scanner',
   'usert7556@gmail.com': ['option-scope', 'xaut-paper-trading', 'jodi'],
   'shahkajal991@gmail.com': ['option-scope', 'ratio-spread-scanner', 'delta-predict', 'mirror-dashboard', 'delta-clone'],
-  'pratikdanani@gmail.com': ['option-scope', 'ratio-spread-scanner', 'delta-clone'],
-  'prakhar1196@gmail.com': 'option-scope'
+  'pratikdanani@gmail.com': ['option-scope', 'ratio-spread-scanner', 'delta-clone', 'mirror-dashboard'],
+  'prakhar1196@gmail.com': 'option-scope',
+  'gaurav.danani@gmail.com': 'ratio-spread-scanner'
 }).map(([email, projects]) => [email.trim().toLowerCase(), projects]));
 
 const isMarketingTeam = (guest) => {
@@ -49,7 +50,7 @@ async function checkSessionExpiry() {
   const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
   const { data: { session } } = await supabase.auth.getSession();
-  
+
   if (session) {
     const lastLogin = localStorage.getItem(SESSION_KEY);
     const now = Date.now();
@@ -522,7 +523,7 @@ function renderEmailForm() {
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
       // Mobile keyboards can inject spaces / zero-width chars that trim() misses
       const email = document.getElementById('email-input').value
         .normalize('NFKC')
@@ -1272,7 +1273,7 @@ function getAvatarSVG(author) {
 function getAvatarHTML(quote) {
   const avatarPath = `/avatars/${quote.avatarFile}`;
   const fallbackSVG = getAvatarSVG(quote.author);
-  
+
   return `
     <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
       <!-- Inline fallback SVG shown by default -->
@@ -1287,7 +1288,7 @@ function getAvatarHTML(quote) {
 
 function initFloatingQuotes(canvas) {
   const parent = canvas.parentElement;
-  if (!parent) return () => {};
+  if (!parent) return () => { };
 
   // Cleanup old quotes container if present
   let oldContainer = parent.querySelector('#quotes-container');
@@ -1469,7 +1470,7 @@ function initFloatingQuotes(canvas) {
         const btcData = await btcRes.json();
         const price = parseFloat(btcData.lastPrice);
         const change = parseFloat(btcData.priceChangePercent);
-        
+
         tickers.btc.price = price;
         tickers.btc.base = price; // Reset baseline for tick simulation
         tickers.btc.pct = change;
@@ -1522,7 +1523,7 @@ function initFloatingQuotes(canvas) {
       if (audRes.ok) {
         const audData = await audRes.json();
         const price = parseFloat(audData.rates.USD);
-        
+
         tickers.aud.price = price;
         tickers.aud.base = price; // Reset baseline for tick simulation
         // The exchangerate API doesn't give 24h change percentages keyless, so we track from our default baseline (+0.15%)
@@ -1563,7 +1564,7 @@ function initFloatingQuotes(canvas) {
 
   // Poll live API every 15 seconds to sync with order books
   const liveSyncInterval = setInterval(syncLiveMarketData, 15000);
-  
+
   // Call immediately on start
   syncLiveMarketData();
 
@@ -1577,7 +1578,7 @@ function initFloatingQuotes(canvas) {
     const changePct = (Math.random() * 0.16 - 0.08) / 100;
     const oldPrice = ticker.price;
     ticker.price = +(ticker.price * (1 + changePct)).toFixed(key === 'aud' ? 4 : 2);
-    
+
     // Update active return percentage relative to starting index reference
     const diffFromBase = ticker.price - ticker.base;
     ticker.pct = +(((diffFromBase / ticker.base) * 100) + (key === 'eth' ? tickers.eth.pct : key === 'btc' ? tickers.btc.pct : key === 'aud' ? tickers.aud.pct : tickers.sol.pct)).toFixed(2);
@@ -1588,7 +1589,7 @@ function initFloatingQuotes(canvas) {
     if (valEl && chgEl) {
       const digits = key === 'aud' ? 4 : 2;
       valEl.textContent = ticker.price.toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits });
-      
+
       const isUp = ticker.pct >= 0;
       chgEl.textContent = `${isUp ? '+' : ''}${ticker.pct}%`;
       chgEl.className = `ticker-chg ${isUp ? 'chg-positive' : 'chg-negative'}`;
@@ -1661,7 +1662,7 @@ function initFloatingQuotes(canvas) {
       if (activeTypingInterval) clearInterval(activeTypingInterval);
       element.textContent = '';
       if (cursorEl) cursorEl.style.display = 'inline-block';
-      
+
       let i = 0;
       activeTypingInterval = setInterval(() => {
         if (i < text.length) {
@@ -1692,7 +1693,7 @@ function initFloatingQuotes(canvas) {
         const oldAvatar = innerEl.querySelector('.quote-avatar');
         if (oldAvatar) oldAvatar.className = 'quote-avatar roll-out';
         innerEl.className = 'quote-card-inner exit';
-        
+
         const t = setTimeout(() => {
           innerEl.innerHTML = `
             <div class="quote-header">
@@ -1705,7 +1706,7 @@ function initFloatingQuotes(canvas) {
             <div class="quote-text">“<span class="quote-text-body"></span><span class="typing-cursor"></span>”</div>
           `;
           innerEl.className = 'quote-card-inner enter-prep';
-          
+
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               innerEl.className = 'quote-card-inner';
@@ -1742,7 +1743,7 @@ function initFloatingQuotes(canvas) {
           setTimeout(() => {
             cardEl.style.opacity = '1';
             cardEl.style.transform = 'scale(1) translateY(0)';
-            
+
             const newAvatar = innerEl.querySelector('.quote-avatar');
             if (newAvatar) {
               setTimeout(() => { newAvatar.classList.remove('roll-in'); }, 50);
@@ -1827,31 +1828,31 @@ function startCandleBg(canvas) {
   window.cleanupBackgroundQuotes = initFloatingQuotes(canvas);
 
   function resize() {
-    canvas.width  = window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
   resize();
   window.addEventListener('resize', resize);
 
   /* â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  const CW    = 10;    // candle body width px
-  const GAP   = 5;     // gap between candles px
-  const CS    = CW + GAP; // stride per candle px
+  const CW = 10;    // candle body width px
+  const GAP = 5;     // gap between candles px
+  const CS = CW + GAP; // stride per candle px
   const SPEED = 0.45;  // scroll px per frame
 
   /* â”€â”€ Single-candle generator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   let trend = 2;
   function makeCandle(prev) {
     if (Math.random() < 0.04) trend = (Math.random() - 0.5) * 14;
-    const open   = prev.close;
-    const move   = trend + (Math.random() - 0.5) * 16;
-    const close  = open + move;
-    const ext    = Math.abs(close - open) + 2;
-    const high   = Math.max(open, close) + Math.random() * ext * 0.85;
-    const low    = Math.min(open, close) - Math.random() * ext * 0.85;
+    const open = prev.close;
+    const move = trend + (Math.random() - 0.5) * 16;
+    const close = open + move;
+    const ext = Math.abs(close - open) + 2;
+    const high = Math.max(open, close) + Math.random() * ext * 0.85;
+    const low = Math.min(open, close) - Math.random() * ext * 0.85;
     const volume = 0.05 + Math.random() * 0.12 + ext * 0.002;
-    const ema20  = close * (2/21) + prev.ema20 * (1 - 2/21);
-    const ema50  = close * (2/51) + prev.ema50 * (1 - 2/51);
+    const ema20 = close * (2 / 21) + prev.ema20 * (1 - 2 / 21);
+    const ema50 = close * (2 / 51) + prev.ema50 * (1 - 2 / 51);
     let signal = null;
     if (Math.random() < 0.02 && Math.abs(close - open) > 8)
       signal = close > open ? 'BUY' : 'SELL';
@@ -1860,23 +1861,27 @@ function startCandleBg(canvas) {
 
   /* â”€â”€ Seed 350 historical candles (open[i] = close[i-1]) â”€â”€â”€ */
   const candles = [];
-  let seed = { open:64200, close:64200, high:64200, low:64200,
-               volume:0.08, ema20:64200, ema50:64200, signal:null };
+  let seed = {
+    open: 64200, close: 64200, high: 64200, low: 64200,
+    volume: 0.08, ema20: 64200, ema50: 64200, signal: null
+  };
   candles.push(seed);
-  for (let i = 0; i < 350; i++) candles.push(makeCandle(candles[candles.length-1]));
+  for (let i = 0; i < 350; i++) candles.push(makeCandle(candles[candles.length - 1]));
 
   // Initial forming candle: starts flat at last historical close
   const ip = candles[candles.length - 1];
-  candles.push({ open:ip.close, close:ip.close, high:ip.close, low:ip.close,
-                 volume:0.06, ema20:ip.ema20, ema50:ip.ema50, signal:null });
+  candles.push({
+    open: ip.close, close: ip.close, high: ip.close, low: ip.close,
+    volume: 0.06, ema20: ip.ema20, ema50: ip.ema50, signal: null
+  });
 
   let scrollPx = 0; // 0..CS â€” sub-candle scroll offset
 
   /* â”€â”€ Ticker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const TICKERS = [
-    'BTC  +2.14%','ETH  +0.87%','ASX 200  -0.32%','SPX  +1.10%',
-    'GOLD  +0.55%','AUD/USD  -0.18%','NASDAQ  +1.44%','NVDA  +3.21%',
-    'AAPL  +0.72%','TSLA  -1.08%','BNB  +1.65%','SOL  +4.10%',
+    'BTC  +2.14%', 'ETH  +0.87%', 'ASX 200  -0.32%', 'SPX  +1.10%',
+    'GOLD  +0.55%', 'AUD/USD  -0.18%', 'NASDAQ  +1.44%', 'NVDA  +3.21%',
+    'AAPL  +0.72%', 'TSLA  -1.08%', 'BNB  +1.65%', 'SOL  +4.10%',
   ];
   let tickerX = 0;
   const tickerStr = TICKERS.join('    Â·    ');
@@ -1894,8 +1899,10 @@ function startCandleBg(canvas) {
       scrollPx -= CS;
       const prev = candles[candles.length - 1];
       // New forming candle opens flat at previous close
-      candles.push({ open:prev.close, close:prev.close, high:prev.close, low:prev.close,
-                     volume:0.06, ema20:prev.ema20, ema50:prev.ema50, signal:null });
+      candles.push({
+        open: prev.close, close: prev.close, high: prev.close, low: prev.close,
+        volume: 0.06, ema20: prev.ema20, ema50: prev.ema50, signal: null
+      });
       // Trim candles scrolled far off the left edge
       const maxKeep = Math.ceil(W / CS) + 80;
       if (candles.length > maxKeep) candles.splice(0, candles.length - maxKeep);
@@ -1905,11 +1912,11 @@ function startCandleBg(canvas) {
     const forming = candles[candles.length - 1];
     forming.close += (Math.random() - 0.48) * 1.4;
     if (forming.close > forming.high) forming.high = forming.close;
-    if (forming.close < forming.low)  forming.low  = forming.close;
+    if (forming.close < forming.low) forming.low = forming.close;
     if (candles.length > 1) {
       const p2 = candles[candles.length - 2];
-      forming.ema20 = forming.close * (2/21) + p2.ema20 * (1 - 2/21);
-      forming.ema50 = forming.close * (2/51) + p2.ema50 * (1 - 2/51);
+      forming.ema20 = forming.close * (2 / 21) + p2.ema20 * (1 - 2 / 21);
+      forming.ema50 = forming.close * (2 / 51) + p2.ema50 * (1 - 2 / 51);
     }
 
     /* Parallax */
@@ -1923,15 +1930,15 @@ function startCandleBg(canvas) {
     /* Background grid */
     ctx.strokeStyle = 'rgba(255,255,255,0.022)';
     ctx.lineWidth = 1;
-    for (let x = -60; x < W+60; x += 60) { ctx.beginPath(); ctx.moveTo(x,-60); ctx.lineTo(x,H+60); ctx.stroke(); }
-    for (let y = -60; y < H+60; y += 60) { ctx.beginPath(); ctx.moveTo(-60,y); ctx.lineTo(W+60,y); ctx.stroke(); }
+    for (let x = -60; x < W + 60; x += 60) { ctx.beginPath(); ctx.moveTo(x, -60); ctx.lineTo(x, H + 60); ctx.stroke(); }
+    for (let y = -60; y < H + 60; y += 60) { ctx.beginPath(); ctx.moveTo(-60, y); ctx.lineTo(W + 60, y); ctx.stroke(); }
 
     /* Layout */
     const TICKER_H = 30, AXIS_W = 74, AXIS_H = 26;
     const chartTop = TICKER_H + 8;
     const chartBot = H - AXIS_H;
-    const chartH   = chartBot - chartTop;
-    const chartW   = W - AXIS_W;
+    const chartH = chartBot - chartTop;
+    const chartW = W - AXIS_W;
 
     // Forming candle is always anchored at 62% from left
     const ANCHOR_X = Math.floor(chartW * 0.62);
@@ -1942,145 +1949,145 @@ function startCandleBg(canvas) {
     const visible = [];
     for (let i = candles.length - 1; i >= 0; i--) {
       const age = candles.length - 1 - i;
-      const x   = ANCHOR_X - scrollPx - age * CS;
+      const x = ANCHOR_X - scrollPx - age * CS;
       if (x + CW < 0) break;
       visible.unshift({ candle: candles[i], x });
     }
 
     /* Y scale from visible candles */
     let priceMin = Infinity, priceMax = -Infinity;
-    visible.forEach(({candle:c}) => {
-      if (c.low  < priceMin) priceMin = c.low;
+    visible.forEach(({ candle: c }) => {
+      if (c.low < priceMin) priceMin = c.low;
       if (c.high > priceMax) priceMax = c.high;
     });
     if (!isFinite(priceMin)) { priceMin = 63000; priceMax = 65000; }
     const rPad = (priceMax - priceMin) * 0.08 || 100;
     const yMin = priceMin - rPad, yMax = priceMax + rPad;
-    const toY  = v => chartBot - ((v - yMin) / (yMax - yMin)) * chartH;
+    const toY = v => chartBot - ((v - yMin) / (yMax - yMin)) * chartH;
 
     /* 1. Grid lines + Y-axis labels */
     ctx.fillStyle = 'rgba(255,255,255,0.26)';
-    ctx.font      = '10px Inter, sans-serif';
+    ctx.font = '10px Inter, sans-serif';
     ctx.textAlign = 'left';
     for (let j = 0; j <= 6; j++) {
-      const pv   = yMin + (yMax - yMin) * (j/6);
+      const pv = yMin + (yMax - yMin) * (j / 6);
       const yPos = toY(pv);
       if (yPos < chartTop || yPos > chartBot) continue;
       ctx.strokeStyle = 'rgba(255,255,255,0.016)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(0,yPos); ctx.lineTo(chartW,yPos); ctx.stroke();
-      ctx.fillText(Math.round(pv).toLocaleString(), chartW+6, yPos+3);
+      ctx.beginPath(); ctx.moveTo(0, yPos); ctx.lineTo(chartW, yPos); ctx.stroke();
+      ctx.fillText(Math.round(pv).toLocaleString(), chartW + 6, yPos + 3);
     }
 
     /* 2. Y-axis panel */
     ctx.fillStyle = 'rgba(10,12,22,0.9)';
     ctx.fillRect(chartW, chartTop, AXIS_W, chartH + AXIS_H);
     ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(chartW,chartTop); ctx.lineTo(chartW,chartBot+AXIS_H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(chartW, chartTop); ctx.lineTo(chartW, chartBot + AXIS_H); ctx.stroke();
 
     /* 3. X-axis panel */
     ctx.fillStyle = 'rgba(10,12,22,0.9)';
     ctx.fillRect(0, chartBot, W, AXIS_H);
     ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-    ctx.beginPath(); ctx.moveTo(0,chartBot); ctx.lineTo(W,chartBot); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, chartBot); ctx.lineTo(W, chartBot); ctx.stroke();
 
     /* 4. Volume bars */
-    visible.forEach(({candle:c,x}) => {
+    visible.forEach(({ candle: c, x }) => {
       const bull = c.close >= c.open;
-      const vh   = Math.min(c.volume * 90, 55);
+      const vh = Math.min(c.volume * 90, 55);
       ctx.fillStyle = bull ? 'rgba(8,153,129,0.13)' : 'rgba(242,54,69,0.13)';
       ctx.fillRect(x, chartBot - vh, CW, vh);
     });
 
     /* 5. EMA lines */
     if (visible.length >= 2) {
-      [['rgba(255,152,0,0.65)','ema20'],['rgba(0,188,212,0.65)','ema50']].forEach(([color,key]) => {
+      [['rgba(255,152,0,0.65)', 'ema20'], ['rgba(0,188,212,0.65)', 'ema50']].forEach(([color, key]) => {
         ctx.strokeStyle = color; ctx.lineWidth = 1.6; ctx.beginPath();
-        visible.forEach(({candle:c,x},k) => {
+        visible.forEach(({ candle: c, x }, k) => {
           const y = toY(c[key]);
-          k===0 ? ctx.moveTo(x+CW/2,y) : ctx.lineTo(x+CW/2,y);
+          k === 0 ? ctx.moveTo(x + CW / 2, y) : ctx.lineTo(x + CW / 2, y);
         });
         ctx.stroke();
       });
     }
 
     /* 6. Candlesticks */
-    visible.forEach(({candle:c,x}) => {
-      const bull  = c.close >= c.open;
+    visible.forEach(({ candle: c, x }) => {
+      const bull = c.close >= c.open;
       const color = bull ? '#089981' : '#f23645';
-      const bTop  = toY(Math.max(c.open, c.close));
-      const bBot  = toY(Math.min(c.open, c.close));
-      const bH    = Math.max(1.5, bBot - bTop);
+      const bTop = toY(Math.max(c.open, c.close));
+      const bBot = toY(Math.min(c.open, c.close));
+      const bH = Math.max(1.5, bBot - bTop);
       ctx.strokeStyle = color; ctx.lineWidth = 1.3;
-      ctx.beginPath(); ctx.moveTo(x+CW/2, toY(c.high)); ctx.lineTo(x+CW/2, toY(c.low)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + CW / 2, toY(c.high)); ctx.lineTo(x + CW / 2, toY(c.low)); ctx.stroke();
       ctx.fillStyle = color; ctx.fillRect(x, bTop, CW, bH);
     });
 
     /* 7. Live price line + badge */
     {
-      const fx    = ANCHOR_X - scrollPx;
-      const fc    = forming;
-      const bull  = fc.close >= fc.open;
+      const fx = ANCHOR_X - scrollPx;
+      const fc = forming;
+      const bull = fc.close >= fc.open;
       const color = bull ? '#089981' : '#f23645';
       const liveY = toY(fc.close);
       if (liveY >= chartTop && liveY <= chartBot) {
-        ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([5,4]);
-        ctx.beginPath(); ctx.moveTo(fx+CW, liveY); ctx.lineTo(chartW, liveY); ctx.stroke();
+        ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
+        ctx.beginPath(); ctx.moveTo(fx + CW, liveY); ctx.lineTo(chartW, liveY); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = color;
-        if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(chartW+2, liveY-9, AXIS_W-4, 18, 3); ctx.fill(); }
-        else { ctx.fillRect(chartW+2, liveY-9, AXIS_W-4, 18); }
+        if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(chartW + 2, liveY - 9, AXIS_W - 4, 18, 3); ctx.fill(); }
+        else { ctx.fillRect(chartW + 2, liveY - 9, AXIS_W - 4, 18); }
         ctx.fillStyle = '#fff'; ctx.font = 'bold 9.5px Inter, sans-serif'; ctx.textAlign = 'left';
-        ctx.fillText(Math.round(fc.close).toLocaleString(), chartW+7, liveY+3.5);
+        ctx.fillText(Math.round(fc.close).toLocaleString(), chartW + 7, liveY + 3.5);
       }
     }
 
     /* 8. Buy/Sell signals */
-    visible.forEach(({candle:c,x}) => {
+    visible.forEach(({ candle: c, x }) => {
       if (!c.signal) return;
       ctx.font = 'bold 7.5px Space Grotesk, sans-serif'; ctx.textAlign = 'center';
       if (c.signal === 'BUY') {
         const yp = toY(c.low) + 14;
         if (yp < chartBot) {
           ctx.fillStyle = '#089981';
-          ctx.beginPath(); ctx.moveTo(x+CW/2,yp-6); ctx.lineTo(x+CW/2-4,yp); ctx.lineTo(x+CW/2+4,yp); ctx.fill();
-          ctx.fillText('BUY', x+CW/2, yp+9);
+          ctx.beginPath(); ctx.moveTo(x + CW / 2, yp - 6); ctx.lineTo(x + CW / 2 - 4, yp); ctx.lineTo(x + CW / 2 + 4, yp); ctx.fill();
+          ctx.fillText('BUY', x + CW / 2, yp + 9);
         }
       } else {
         const yp = toY(c.high) - 14;
         if (yp > chartTop) {
           ctx.fillStyle = '#f23645';
-          ctx.beginPath(); ctx.moveTo(x+CW/2,yp+6); ctx.lineTo(x+CW/2-4,yp); ctx.lineTo(x+CW/2+4,yp); ctx.fill();
-          ctx.fillText('SELL', x+CW/2, yp-4);
+          ctx.beginPath(); ctx.moveTo(x + CW / 2, yp + 6); ctx.lineTo(x + CW / 2 - 4, yp); ctx.lineTo(x + CW / 2 + 4, yp); ctx.fill();
+          ctx.fillText('SELL', x + CW / 2, yp - 4);
         }
       }
     });
 
     /* 9. X-axis time labels */
     ctx.fillStyle = 'rgba(255,255,255,0.27)'; ctx.font = '9px Inter, sans-serif'; ctx.textAlign = 'center';
-    visible.forEach(({x},vi) => {
+    visible.forEach(({ x }, vi) => {
       const age = visible.length - 1 - vi;
       if (age % 10 === 0) {
-        const hour  = (9 + Math.floor(age/4)) % 24;
-        ctx.fillText(`${hour.toString().padStart(2,'0')}:00`, x+CW/2, chartBot+17);
+        const hour = (9 + Math.floor(age / 4)) % 24;
+        ctx.fillText(`${hour.toString().padStart(2, '0')}:00`, x + CW / 2, chartBot + 17);
         ctx.strokeStyle = 'rgba(255,255,255,0.014)'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(x+CW/2,chartTop); ctx.lineTo(x+CW/2,chartBot); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x + CW / 2, chartTop); ctx.lineTo(x + CW / 2, chartBot); ctx.stroke();
       }
     });
 
     /* 10. Chart label */
     ctx.fillStyle = 'rgba(59,130,246,0.7)'; ctx.font = 'bold 11px Space Grotesk, sans-serif'; ctx.textAlign = 'left';
-    ctx.fillText('â— BTC/USDT  Â·  PERPETUAL  Â·  1H', 16, chartTop+18);
+    ctx.fillText('â— BTC/USDT  Â·  PERPETUAL  Â·  1H', 16, chartTop + 18);
 
     ctx.restore();
 
     /* Ticker bar (fixed, outside parallax) */
     const barH = 28;
-    ctx.fillStyle = 'rgba(59,130,246,0.06)'; ctx.fillRect(0,0,W,barH);
+    ctx.fillStyle = 'rgba(59,130,246,0.06)'; ctx.fillRect(0, 0, W, barH);
     ctx.strokeStyle = 'rgba(59,130,246,0.12)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0,barH); ctx.lineTo(W,barH); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, barH); ctx.lineTo(W, barH); ctx.stroke();
     ctx.fillStyle = 'rgba(59,130,246,0.6)'; ctx.font = '500 11px Inter, monospace'; ctx.textAlign = 'left';
-    ctx.fillText(tickerStr+'    Â·    '+tickerStr, tickerX, 18);
-    const tw = ctx.measureText(tickerStr+'    Â·    ').width;
+    ctx.fillText(tickerStr + '    Â·    ' + tickerStr, tickerX, 18);
+    const tw = ctx.measureText(tickerStr + '    Â·    ').width;
     tickerX -= 0.6;
     if (tickerX < -tw) tickerX = 0;
 
@@ -2226,7 +2233,7 @@ function closeDashboard() {
   document.body.style.overflow = '';
 }
 
-window.handleCardClick = function(e, projectId) {
+window.handleCardClick = function (e, projectId) {
   // If it's a standard left-click without modifier keys, open in the premium local viewer
   if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey) {
     e.preventDefault();
