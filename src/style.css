@@ -629,6 +629,11 @@ body::before {
   padding-bottom: 80px;
 }
 
+/* Sectioned portal: keep sections close, leave the full gap after the last */
+.grid-group .grid { padding-bottom: 36px; }
+.grid-group:last-of-type .grid { padding-bottom: 80px; }
+.grid-group .section-head { margin-bottom: 24px; }
+
 /* ── Card ── */
 .card {
   background: var(--glass);
@@ -804,8 +809,8 @@ body::before {
   100% { transform: translateX(130%); }
 }
 
-/* Execution & trading — live money flow (green) */
-.card-badge-live-trading {
+/* Live options execution (green) */
+.card-badge-options {
   background: linear-gradient(135deg, #10b981, #059669);
 }
 
@@ -814,14 +819,45 @@ body::before {
   background: linear-gradient(135deg, #14b8a6, #0d9488);
 }
 
-/* Bot / automated execution (amber) */
-.card-badge-automated {
+/* Prediction markets (fuchsia) */
+.card-badge-prediction {
+  background: linear-gradient(135deg, #d946ef, #c026d3);
+}
+
+/* Analyst research (amber) */
+.card-badge-research {
   background: linear-gradient(135deg, #f59e0b, #d97706);
 }
 
-/* Options analytics (blue) */
-.card-badge-options {
+/* AI-summarised news, marketing content (violet) */
+.card-badge-ai-news,
+.card-badge-content {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+/* Options scanner (cyan) */
+.card-badge-scanner {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+/* BTC scanner (bitcoin orange) */
+.card-badge-btc-scanner {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+/* Options charts (blue) */
+.card-badge-charts {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+/* Gold paper trading (gold) */
+.card-badge-gold {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+}
+
+/* Futures & options paper trading (rose) */
+.card-badge-fno {
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
 }
 
 /* Portfolio & client (indigo) */
@@ -829,10 +865,9 @@ body::before {
   background: linear-gradient(135deg, #6366f1, #4f46e5);
 }
 
-/* AI-generated / AI-summarised (violet) */
-.card-badge-ai,
-.card-badge-ai-news {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+/* No longer in use (grey) */
+.card-badge-inactive {
+  background: linear-gradient(135deg, #64748b, #475569);
 }
 
 /* Card body */
@@ -971,6 +1006,9 @@ body::before {
 
   .content { padding: 28px 20px 0; }
   .section-head { margin-bottom: 18px; }
+  .grid-group .section-head { margin-bottom: 18px; }
+  .grid-group .grid { padding-bottom: 20px; }
+  .grid-group:last-of-type .grid { padding-bottom: 48px; }
 
   .grid {
     grid-template-columns: repeat(2, 1fr);

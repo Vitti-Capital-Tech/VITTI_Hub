@@ -351,7 +351,8 @@ const PROJECTS = [
     tagline: "Execute and monitor trades live, in real time.",
     url: import.meta.env.VITE_TRADE_URL || '',
     image: '/trade.png',
-    badge: 'live-trading',
+    badge: 'options',
+    group: 'live',
   },
   {
     id: 'ratio-spread-scanner',
@@ -360,6 +361,16 @@ const PROJECTS = [
     url: import.meta.env.VITE_RATIO_SCANNER_URL || '',
     image: '/ratio.png',
     badge: 'scanner',
+    group: 'scanners',
+  },
+  {
+    id: 'cosmic-scanner',
+    name: 'Cosmic Scanner',
+    tagline: "Scan BTC options for call & put ratio spread setups.",
+    url: import.meta.env.VITE_COSMIC_URL || '',
+    image: '/cosmic.jpeg',
+    badge: 'btc-scanner',
+    group: 'scanners',
   },
   {
     id: 'xaut-paper-trading',
@@ -367,15 +378,8 @@ const PROJECTS = [
     tagline: "Practice gold (XAUT) trades with simulated capital.",
     url: import.meta.env.VITE_XAUT_URL || '',
     image: '/xaut.png',
-    badge: 'paper-trading',
-  },
-  {
-    id: 'delta-predict',
-    name: 'Predict Paper Trading',
-    tagline: "Practice BTC & ETH Predict trades with simulated capital.",
-    url: import.meta.env.VITE_PREDICT_URL || '',
-    image: '/predict.png',
-    badge: 'paper-trading',
+    badge: 'gold',
+    group: 'paper',
   },
   {
     id: 'delta-clone',
@@ -383,7 +387,9 @@ const PROJECTS = [
     tagline: "Practice futures & options trades with simulated capital.",
     url: import.meta.env.VITE_DELTA_CLONE_URL || '',
     image: '/delta_clone.png',
-    badge: 'paper-trading',
+    badge: 'fno',
+    badgeLabel: 'F&O',
+    group: 'paper',
   },
   {
     id: 'daily-movers',
@@ -391,7 +397,8 @@ const PROJECTS = [
     tagline: "Track the day's biggest market movers.",
     url: import.meta.env.VITE_DAILY_MOVERS_URL || '',
     image: '/daily_movers.png',
-    badge: 'markets',
+    badge: 'research',
+    group: 'marketing',
   },
   {
     id: 'mirror-dashboard',
@@ -400,6 +407,16 @@ const PROJECTS = [
     url: import.meta.env.VITE_MIRROR_URL || '',
     image: '/mirror.png',
     badge: 'copy-trade',
+    group: 'live',
+  },
+  {
+    id: 'delta-predict',
+    name: 'Predict Dashboard',
+    tagline: "Trade BTC & ETH Predict markets with real capital.",
+    url: import.meta.env.VITE_PREDICT_URL || '',
+    image: '/predict.png',
+    badge: 'prediction',
+    group: 'live',
   },
   {
     id: 'asx-dashboard',
@@ -408,6 +425,7 @@ const PROJECTS = [
     url: import.meta.env.VITE_ASX_URL || '',
     image: '/asx.png',
     badge: 'ai-news',
+    group: 'marketing',
   },
   {
     id: 'jodi',
@@ -415,7 +433,8 @@ const PROJECTS = [
     tagline: 'Chart every put & call, side by side.',
     url: import.meta.env.VITE_JODI_URL || '',
     image: '/jodi.png',
-    badge: 'options',
+    badge: 'charts',
+    group: 'scanners',
   },
   {
     id: 'client-dashboard',
@@ -424,6 +443,7 @@ const PROJECTS = [
     url: import.meta.env.VITE_CLIENT_URL || import.meta.env.VIT_CLIENT_URL || '',
     image: '/client.png',
     badge: 'portfolio',
+    group: 'clients',
   },
   {
     id: 'vitti-bot',
@@ -431,7 +451,8 @@ const PROJECTS = [
     tagline: "See today's option trades, executed by the BOT.",
     url: import.meta.env.VITE_BOT_URL || '',
     image: '/bot.png',
-    badge: 'automated',
+    badge: 'inactive',
+    group: 'archived',
   },
   {
     id: 'ideas-dashboard',
@@ -439,8 +460,20 @@ const PROJECTS = [
     tagline: "See today's content ideas, AI-generated.",
     url: import.meta.env.VITE_IDEAS_URL || '',
     image: '/ideas.png',
-    badge: 'ai',
+    badge: 'content',
+    group: 'marketing',
   },
+];
+
+// Portal sections, in display order. Each project's `group` picks one;
+// a section with no dashboards the user can open is not shown.
+const GROUPS = [
+  { id: 'live', label: 'Live Accounts' },
+  { id: 'marketing', label: 'Marketing & News' },
+  { id: 'scanners', label: 'Scanners & Analytics' },
+  { id: 'paper', label: 'Paper Trading' },
+  { id: 'clients', label: 'Clients' },
+  { id: 'archived', label: 'Archived' },
 ];
 
 // â”€â”€ Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -2265,7 +2298,7 @@ async function renderPortal() {
     allowedProjects = PROJECTS;
   }
 
-  const cards = allowedProjects.map((p, i) => `
+  const card = (p, i) => `
     <a class="card" id="card-${p.id}" href="${p.url}" target="_blank" style="transition-delay: ${i * 100}ms"
          onclick="handleCardClick(event, '${p.id}')"
          onmousemove="this.style.setProperty('--x', event.offsetX + 'px'); this.style.setProperty('--y', event.offsetY + 'px')"
@@ -2283,14 +2316,32 @@ async function renderPortal() {
             <span class="card-hover-label">View Live</span>
           </div>
         </div>
-        ${p.badge ? `<span class="card-badge card-badge-${p.badge}">${p.badge.replace(/-/g, ' ').toUpperCase()}</span>` : ''}
+        ${p.badge ? `<span class="card-badge card-badge-${p.badge}">${p.badgeLabel || p.badge.replace(/-/g, ' ').toUpperCase()}</span>` : ''}
       </div>
       <div class="card-body">
         <h2 class="card-title">${p.name}</h2>
         <p class="card-tagline">${p.tagline}</p>
       </div>
     </a>
-  `).join('');
+  `;
+
+  // Stagger the reveal across the whole page, not per section.
+  let cardIndex = 0;
+  const sections = GROUPS.map(g => {
+    const items = allowedProjects.filter(p => p.group === g.id);
+    if (!items.length) return '';
+    return `
+      <section class="grid-group" id="group-${g.id}">
+        <div class="section-head">
+          <span class="section-label">${g.label}</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="grid">
+          ${items.map(p => card(p, cardIndex++)).join('')}
+        </div>
+      </section>
+    `;
+  }).join('');
 
   const user = session?.user ?? null;
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
@@ -2326,14 +2377,7 @@ async function renderPortal() {
           
         </section>
 
-        <div class="section-head">
-          <span class="section-label">Active Dashboards</span>
-          <div class="section-rule"></div>
-        </div>
-
-        <div class="grid" id="grid">
-          ${cards}
-        </div>
+        ${sections}
       </div>
 
       <footer>
