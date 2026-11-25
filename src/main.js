@@ -392,15 +392,6 @@ const PROJECTS = [
     group: 'paper',
   },
   {
-    id: 'daily-movers',
-    name: 'Daily Movers',
-    tagline: "Track the day's biggest market movers.",
-    url: import.meta.env.VITE_DAILY_MOVERS_URL || '',
-    image: '/daily_movers.png',
-    badge: 'research',
-    group: 'research',
-  },
-  {
     id: 'mirror-dashboard',
     name: 'Mirror Dashboard',
     tagline: 'See trades in the follower accounts executed by the master account.',
@@ -425,6 +416,15 @@ const PROJECTS = [
     url: import.meta.env.VITE_ASX_URL || '',
     image: '/asx.png',
     badge: 'ai-news',
+    group: 'research',
+  },
+  {
+    id: 'daily-movers',
+    name: 'Daily Movers',
+    tagline: "Track the day's biggest market movers.",
+    url: import.meta.env.VITE_DAILY_MOVERS_URL || '',
+    image: '/daily_movers.png',
+    badge: 'research',
     group: 'research',
   },
   {
