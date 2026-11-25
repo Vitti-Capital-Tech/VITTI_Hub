@@ -481,9 +481,9 @@ const GROUPS = [
   { id: 'live', label: 'Live Accounts' },
   { id: 'research', label: 'Research' },
   { id: 'scanners', label: 'Scanners & Analytics' },
-  { id: 'marketing', label: 'Marketing & News' },
   { id: 'paper', label: 'Paper Trading' },
   { id: 'clients', label: 'Clients' },
+  { id: 'marketing', label: 'Marketing & News' },
   { id: 'archived', label: 'Archived' },
 ];
 
