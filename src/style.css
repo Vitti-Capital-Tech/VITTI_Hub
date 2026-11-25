@@ -829,6 +829,10 @@ body::before {
   background: linear-gradient(135deg, #f59e0b, #d97706);
 }
 
+.card-badge-mining {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+}
+
 /* AI-summarised news, marketing content (violet) */
 .card-badge-ai-news,
 .card-badge-content {

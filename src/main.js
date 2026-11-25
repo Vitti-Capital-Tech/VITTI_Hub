@@ -463,6 +463,16 @@ const PROJECTS = [
     badge: 'content',
     group: 'marketing',
   },
+  {
+    id: 'namibia',
+    name: 'Namibia Mining Portal',
+    tagline: 'Screen mining licences and recommend sites across Namibia.',
+    url: import.meta.env.VITE_NAMIBIA_URL || '',
+    image: '/namibia.webp',
+    badge: 'mining',
+    badgeLabel: 'Mining',
+    group: 'research',
+  },
 ];
 
 // Portal sections, in display order. Each project's `group` picks one;
@@ -471,6 +481,7 @@ const GROUPS = [
   { id: 'live', label: 'Live Accounts' },
   { id: 'marketing', label: 'Marketing & News' },
   { id: 'scanners', label: 'Scanners & Analytics' },
+  { id: 'research', label: 'Research' },
   { id: 'paper', label: 'Paper Trading' },
   { id: 'clients', label: 'Clients' },
   { id: 'archived', label: 'Archived' },
