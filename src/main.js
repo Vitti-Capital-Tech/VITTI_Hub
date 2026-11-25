@@ -398,7 +398,7 @@ const PROJECTS = [
     url: import.meta.env.VITE_DAILY_MOVERS_URL || '',
     image: '/daily_movers.png',
     badge: 'research',
-    group: 'marketing',
+    group: 'research',
   },
   {
     id: 'mirror-dashboard',
@@ -425,7 +425,7 @@ const PROJECTS = [
     url: import.meta.env.VITE_ASX_URL || '',
     image: '/asx.png',
     badge: 'ai-news',
-    group: 'marketing',
+    group: 'research',
   },
   {
     id: 'jodi',
@@ -479,9 +479,9 @@ const PROJECTS = [
 // a section with no dashboards the user can open is not shown.
 const GROUPS = [
   { id: 'live', label: 'Live Accounts' },
-  { id: 'marketing', label: 'Marketing & News' },
-  { id: 'scanners', label: 'Scanners & Analytics' },
   { id: 'research', label: 'Research' },
+  { id: 'scanners', label: 'Scanners & Analytics' },
+  { id: 'marketing', label: 'Marketing & News' },
   { id: 'paper', label: 'Paper Trading' },
   { id: 'clients', label: 'Clients' },
   { id: 'archived', label: 'Archived' },
