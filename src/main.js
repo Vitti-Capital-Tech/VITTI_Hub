@@ -424,7 +424,7 @@ const PROJECTS = [
     tagline: "Track the day's biggest market movers.",
     url: import.meta.env.VITE_DAILY_MOVERS_URL || '',
     image: '/daily_movers.png',
-    badge: 'research',
+    badge: 'markets',
     group: 'research',
   },
   {
